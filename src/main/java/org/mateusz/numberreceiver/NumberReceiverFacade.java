@@ -1,10 +1,25 @@
 package org.mateusz.numberreceiver;
 
+import lombok.AllArgsConstructor;
+import org.mateusz.numberreceiver.dto.InputNumberResultDto;
+
 import java.util.Collection;
 
-class NumberReceiverFacade {
+@AllArgsConstructor
+public class NumberReceiverFacade {
 
-    public String inputNumbers(Collection<Integer> numbers) {
-        return "OK";
+    private final NumberValidator validator;
+
+    public InputNumberResultDto inputNumbers(Collection<Integer> numbersFromUser) {
+        boolean areAllNumbersInRange = validator.areAllNumbersInRange(numbersFromUser);
+        if (areAllNumbersInRange) {
+            return InputNumberResultDto.builder()
+                    .message("success")
+                    .build();
+        }
+        return InputNumberResultDto.builder()
+                .message("failure")
+                .build();
     }
+
 }
