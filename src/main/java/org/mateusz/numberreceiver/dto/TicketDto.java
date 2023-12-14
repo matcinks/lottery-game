@@ -6,5 +6,5 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Builder
-public record InputNumberResultDto(String message, LocalDateTime drawDate, String ticketId, Collection<Integer> numbersFromUser) {
+public record TicketDto(LocalDateTime drawDate, String ticketId, Collection<Integer> numbersFromUser) {
 }
