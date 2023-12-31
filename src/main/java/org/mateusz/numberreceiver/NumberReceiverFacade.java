@@ -1,10 +1,10 @@
 package org.mateusz.numberreceiver;
 
 import lombok.AllArgsConstructor;
+import org.mateusz.drawdate.DrawDateFacade;
 import org.mateusz.numberreceiver.dto.InputNumberResultDto;
 import org.mateusz.numberreceiver.dto.TicketDto;
 
-import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -15,13 +15,15 @@ public class NumberReceiverFacade {
 
     private final NumberValidator validator;
     private final NumberReceiverRepository repository;
-    private final Clock clock;
+    private final DrawDateFacade drawDateFacade;
 
     public InputNumberResultDto inputNumbers(Collection<Integer> numbersFromUser) {
         boolean areAllNumbersInRange = validator.areAllNumbersInRange(numbersFromUser);
         if (areAllNumbersInRange) {
             String ticketId = UUID.randomUUID().toString();
-            LocalDateTime drawDate = LocalDateTime.now(clock);
+
+            LocalDateTime drawDate = drawDateFacade.getNextDrawDate();
+
             Ticket savedTicket = repository.save(new Ticket(ticketId, drawDate, numbersFromUser));
             return InputNumberResultDto.builder()
                     .drawDate(savedTicket.drawDate())

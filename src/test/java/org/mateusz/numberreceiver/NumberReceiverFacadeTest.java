@@ -1,6 +1,7 @@
 package org.mateusz.numberreceiver;
 
 import org.junit.jupiter.api.Test;
+import org.mateusz.drawdate.DrawDateFacade;
 import org.mateusz.numberreceiver.dto.InputNumberResultDto;
 import org.mateusz.numberreceiver.dto.TicketDto;
 
@@ -9,26 +10,21 @@ import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 
 class NumberReceiverFacadeTest {
 
+//    DrawDateFacade drawDateFacade = new DrawDateFacade(Clock.systemUTC());
+    DrawDateFacade drawDateFacade = mock(DrawDateFacade.class);
     NumberReceiverFacade numberReceiverFacade = new NumberReceiverFacade(
             new NumberValidator(),
             new InMemoryNumberReceiverRepositoryTestImpl(),
-//            Clock.fixed(Instant.parse("2023-12-13T21:30.00Z"), ZoneId.systemDefault()));
-            Clock.fixed(ZonedDateTime.of(
-                    2022,
-                    6,
-                    15,
-                    12,
-                    30,
-                    30,
-                    0,
-                    ZoneId.of("GMT")
-            ).toInstant(), ZoneId.of("GMT")));
+            drawDateFacade
+    );
 
     @Test
-    void should_return_success_when_user_gave_six_numbers() {
+    void should_return_success_when_user_gave_six_numbers_in_range() {
         // given
         Set<Integer> numbers = Set.of(1, 2, 3, 4, 5, 6);
         // when
@@ -80,16 +76,10 @@ class NumberReceiverFacadeTest {
     @Test
     void should_return_save_to_database_when_user_gave_six_numbers() {
         // given
+        given(drawDateFacade.getNextDrawDate()).willReturn(LocalDateTime.now());
         Set<Integer> numbers = Set.of(1, 2, 3, 4, 5, 6);
         InputNumberResultDto actual = numberReceiverFacade.inputNumbers(numbers);
-        LocalDateTime drawDate = LocalDateTime.of(
-                2022,
-                6,
-                15,
-                12,
-                30,
-                30,
-                0);
+        LocalDateTime drawDate = drawDateFacade.getNextDrawDate();
         // when
         List<TicketDto> ticketDtos = numberReceiverFacade.userNumbers(drawDate);
         // then
