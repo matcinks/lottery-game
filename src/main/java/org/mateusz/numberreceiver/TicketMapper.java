@@ -2,12 +2,12 @@ package org.mateusz.numberreceiver;
 
 import org.mateusz.numberreceiver.dto.TicketDto;
 
-public class TicketMapper {
+class TicketMapper {
 
     public static TicketDto mapFromTicket(Ticket ticket) {
         return TicketDto.builder()
                 .ticketId(ticket.ticketId())
-                .numbersFromUser(ticket.numbersFromUser())
+                .numbers(ticket.numbersFromUser())
                 .drawDate(ticket.drawDate())
                 .build();
     }

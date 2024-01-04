@@ -9,14 +9,14 @@ import java.util.Collection;
 import java.util.UUID;
 
 @AllArgsConstructor
-public class NumberGeneratorFacade {
+public class WinningNumbersGeneratorFacade {
 
     private final DrawDateFacade drawDateFacade;
     private final WinningNumbersGenerator winningNumbersGenerator;
     private final WinningNumbersValidator winningNumbersValidator;
     private final WinningNumbersRepository winningNumbersRepository;
 
-    WinningNumbersDto generateWinningNumbers() {
+    public WinningNumbersDto generateWinningNumbers() {
         LocalDateTime nextDrawDate = drawDateFacade.getNextDrawDate();
         String winningNumbersId = UUID.randomUUID().toString();
         Collection<Integer> generatedWinningNumbers = winningNumbersGenerator.generateSixRandomNumbers();

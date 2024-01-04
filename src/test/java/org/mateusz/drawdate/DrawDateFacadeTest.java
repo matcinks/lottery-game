@@ -8,8 +8,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class DrawDateFacadeTest {
 
-    DrawDateGenerator drawDateGenerator = new DrawDateGenerator();
-
     @Test
     void should_return_draw_date_for_current_week_exactly_this_week_saturday_at_noon() {
         //given
@@ -21,9 +19,10 @@ class DrawDateFacadeTest {
                 59,
                 59,
                 0,
-                ZoneId.of("GMT")
-        ).toInstant(), ZoneId.of("GMT"));
-        DrawDateFacade drawDateFacade = new DrawDateFacade(fixedClock, drawDateGenerator);
+                ZoneId.of("GMT+1")
+        ).toInstant(), ZoneId.of("GMT+1"));
+
+        DrawDateFacade drawDateFacade = new DrawDateConfiguration().createForTest(fixedClock);
         //when
         LocalDateTime drawDate = drawDateFacade.getNextDrawDate();
         //then
@@ -42,9 +41,10 @@ class DrawDateFacadeTest {
                 0,
                 1,
                 0,
-                ZoneId.of("GMT")
-        ).toInstant(), ZoneId.of("GMT"));
-        DrawDateFacade drawDateFacade = new DrawDateFacade(fixedClock, drawDateGenerator);
+                ZoneId.of("GMT+1")
+        ).toInstant(), ZoneId.of("GMT+1"));
+
+        DrawDateFacade drawDateFacade = new DrawDateConfiguration().createForTest(fixedClock);
         //when
         LocalDateTime drawDate = drawDateFacade.getNextDrawDate();
         //then
