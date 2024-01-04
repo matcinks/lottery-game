@@ -1,4 +1,4 @@
-package org.mateusz.numberreceiver;
+package org.mateusz.resultchecker;
 
 import lombok.Builder;
 

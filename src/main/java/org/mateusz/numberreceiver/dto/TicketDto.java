@@ -6,5 +6,7 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Builder
-public record TicketDto(LocalDateTime drawDate, String ticketId, Collection<Integer> numbersFromUser) {
+public record TicketDto(String ticketId,
+                        Collection<Integer> numbers,
+                        LocalDateTime drawDate) {
 }
