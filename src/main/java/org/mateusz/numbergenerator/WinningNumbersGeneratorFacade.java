@@ -3,6 +3,7 @@ package org.mateusz.numbergenerator;
 import lombok.AllArgsConstructor;
 import org.mateusz.drawdate.DrawDateFacade;
 import org.mateusz.numbergenerator.dto.WinningNumbersDto;
+import org.mateusz.numberreceiver.DrawDateMapper;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -17,7 +18,7 @@ public class WinningNumbersGeneratorFacade {
     private final WinningNumbersRepository winningNumbersRepository;
 
     public WinningNumbersDto generateWinningNumbers() {
-        LocalDateTime nextDrawDate = drawDateFacade.getNextDrawDate();
+        LocalDateTime nextDrawDate = DrawDateMapper.localDateTimeFromDrawDateDto(drawDateFacade.getNextDrawDate());
         String winningNumbersId = UUID.randomUUID().toString();
         Collection<Integer> generatedWinningNumbers = winningNumbersGenerator.generateSixRandomNumbers();
 
