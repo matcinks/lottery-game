@@ -22,22 +22,18 @@ public class NumberReceiverFacade {
         boolean allNumbersAreInRange = validator.areAllNumbersInRange(numbersFromUser);
         if (allNumbersAreInRange) {
             String ticketId = UUID.randomUUID().toString();
-            LocalDateTime drawDate = drawDateFacade.getNextDrawDate();
-
+            LocalDateTime drawDate = DrawDateMapper.localDateTimeFromDrawDateDto(drawDateFacade.getNextDrawDate());
             TicketDto generatedTicket = TicketDto.builder()
                     .ticketId(ticketId)
                     .numbers(numbersFromUser)
                     .drawDate(drawDate)
                     .build();
-
             Ticket savedTicket = Ticket.builder()
                     .ticketId(ticketId)
                     .numbersFromUser(generatedTicket.numbers())
                     .drawDate(generatedTicket.drawDate())
                     .build();
-
             repository.save(savedTicket);
-
             return NumberReceiverResponseDto.builder()
                     .ticketDto(generatedTicket)
                     .message("success")
@@ -47,7 +43,7 @@ public class NumberReceiverFacade {
     }
 
     public List<TicketDto> retrieveAllTicketsForNextDrawDate(LocalDateTime date) {
-        LocalDateTime nextDrawDate = drawDateFacade.getNextDrawDate();
+        LocalDateTime nextDrawDate = DrawDateMapper.localDateTimeFromDrawDateDto(drawDateFacade.getNextDrawDate());
         if (date.isAfter(nextDrawDate)) {
             return Collections.emptyList();
         }
@@ -58,8 +54,7 @@ public class NumberReceiverFacade {
     }
 
     public List<TicketDto> retrieveAllTicketsForNextDrawDate() {
-        LocalDateTime nextDrawDate = drawDateFacade.getNextDrawDate();
+        LocalDateTime nextDrawDate = DrawDateMapper.localDateTimeFromDrawDateDto(drawDateFacade.getNextDrawDate());
         return retrieveAllTicketsForNextDrawDate(nextDrawDate);
     }
-
 }

@@ -3,7 +3,7 @@ package org.mateusz.numbergenerator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class InMemoryWinningNumbersRepositoryTestImpl implements WinningNumbersRepository{
+class InMemoryWinningNumbersRepositoryTestImpl implements WinningNumbersRepository{
 
     Map<String, WinningNumbers> inMemoryDatabase = new ConcurrentHashMap<>();
 

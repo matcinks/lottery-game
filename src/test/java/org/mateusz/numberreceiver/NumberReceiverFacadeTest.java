@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mateusz.drawdate.DrawDateConfiguration;
 import org.mateusz.drawdate.DrawDateFacade;
+import org.mateusz.drawdate.dto.DrawDateDto;
 import org.mateusz.numberreceiver.dto.NumberReceiverResponseDto;
 import org.mateusz.numberreceiver.dto.TicketDto;
 
@@ -27,15 +28,16 @@ class NumberReceiverFacadeTest {
             0,
             ZoneId.of("GMT+1")
     );
-    private final Clock fixedClock = mock(Clock.class);
-    private final DrawDateFacade drawDateFacade = new DrawDateConfiguration().createForTest(fixedClock);
+//    private final Clock fixedClock = mock(Clock.class);
+//    private final DrawDateFacade drawDateFacade = new DrawDateConfiguration().createForTest(fixedClock);
+    private final DrawDateFacade drawDateFacade = mock(DrawDateFacade.class);
     private final InMemoryNumberReceiverRepositoryTestImpl numberReceiverTestRepository = new InMemoryNumberReceiverRepositoryTestImpl();
-
-    @BeforeEach
-    void setUp() {
-        given(fixedClock.getZone()).willReturn(NOW.getZone());
-        given(fixedClock.instant()).willReturn(NOW.toInstant());
-    }
+//
+//    @BeforeEach
+//    void setUp() {
+//        given(fixedClock.getZone()).willReturn(NOW.getZone());
+//        given(fixedClock.instant()).willReturn(NOW.toInstant());
+//    }
 
     @Test
     void should_return_success_when_user_gave_six_numbers_in_range() {
@@ -98,7 +100,13 @@ class NumberReceiverFacadeTest {
         Set<Integer> numbers = Set.of(1, 2, 3, 4, 5, 6);
         NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().createForTest(drawDateFacade, numberReceiverTestRepository);
         TicketDto actual = numberReceiverFacade.inputNumbers(numbers).ticketDto();
-        LocalDateTime drawDate = drawDateFacade.getNextDrawDate();
+        DrawDateDto drawDateDto = DrawDateDto.builder()
+                .id("123")
+                .time(LocalDateTime.now())
+                .build();
+        given(drawDateFacade.getNextDrawDate()).willReturn(drawDateDto);
+        LocalDateTime drawDate = drawDateFacade.getNextDrawDate()
+                .time();
         // when
         List<TicketDto> ticketDtos = numberReceiverFacade.retrieveAllTicketsForNextDrawDate(drawDate);
         // then
@@ -118,7 +126,7 @@ class NumberReceiverFacadeTest {
         Instant nextDayInstant = NOW.plusDays(1).toInstant();
         Instant nextWeekInstant = NOW.plusWeeks(1).toInstant();
 
-        given(fixedClock.instant()).willReturn(sameDayInstant, nextDayInstant, nextWeekInstant, sameDayInstant);
+//        given(fixedClock.instant()).willReturn(sameDayInstant, nextDayInstant, nextWeekInstant, sameDayInstant);
 
         NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().createForTest(drawDateFacade, numberReceiverTestRepository);
 
@@ -145,7 +153,7 @@ class NumberReceiverFacadeTest {
     void should_return_empty_collection_if_there_ara_no_tickets() {
         // given
         NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().createForTest(drawDateFacade, numberReceiverTestRepository);
-        LocalDateTime drawDate = drawDateFacade.getNextDrawDate();
+        LocalDateTime drawDate = DrawDateMapper.localDateTimeFromDrawDateDto(drawDateFacade.getNextDrawDate());
         // when
         List<TicketDto> listOfTickets = numberReceiverFacade.retrieveAllTicketsForNextDrawDate(drawDate);
         // then
@@ -160,7 +168,7 @@ class NumberReceiverFacadeTest {
         Set<Integer> ticketNumbers = Set.of(1, 2, 3, 4, 5, 6);
         numberReceiverFacade.inputNumbers(ticketNumbers);
 
-        LocalDateTime drawDate = drawDateFacade.getNextDrawDate();
+        LocalDateTime drawDate = DrawDateMapper.localDateTimeFromDrawDateDto(drawDateFacade.getNextDrawDate());
         LocalDateTime nextWeekDrawDate = drawDate.plusWeeks(1);
         // when
         List<TicketDto> listOfTickets = numberReceiverFacade.retrieveAllTicketsForNextDrawDate(nextWeekDrawDate);
