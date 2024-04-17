@@ -1,22 +1,38 @@
 package org.mateusz.numbergenerator;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mateusz.drawdate.DrawDateConfiguration;
 import org.mateusz.drawdate.DrawDateFacade;
+import org.mateusz.drawdate.DrawDateRepository;
+import org.mateusz.drawdate.dto.DrawDateDto;
 import org.mateusz.numbergenerator.dto.WinningNumbersDto;
+import org.mockito.MockitoAnnotations;
 
+import java.time.Clock;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 class WinningNumbersGeneratorFacadeTest {
-
+    private static final DrawDateDto DUMMY_DRAW_DATE_DTO = DrawDateDto.builder()
+            .id("001")
+            .time(LocalDateTime.now())
+            .build();
     private final DrawDateFacade drawDateFacade = mock(DrawDateFacade.class);
     private final WinningNumbersGenerator winningNumbersGenerator = mock(WinningNumbersGenerator.class, CALLS_REAL_METHODS);
     private final WinningNumbersRepository winningNumbersTestRepository = new InMemoryWinningNumbersRepositoryTestImpl();
+
+    @BeforeEach
+    public void setUp() {
+        when(drawDateFacade.getNextDrawDate()).thenReturn(DUMMY_DRAW_DATE_DTO);
+    }
 
     @Test
     void should_return_six_winning_numbers() {
@@ -104,5 +120,4 @@ class WinningNumbersGeneratorFacadeTest {
         //then
         assertThrows(WinningNumbersNotFoundException.class, winningNumbersGeneratorFacade::generateWinningNumbers, "Winning numbers out of range!");
     }
-
 }

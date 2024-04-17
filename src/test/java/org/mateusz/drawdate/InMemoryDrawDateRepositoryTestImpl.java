@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-class InMemoryDrawDateRepositoryTestImpl implements DrawDateRepository {
+public class InMemoryDrawDateRepositoryTestImpl implements DrawDateRepository {
 
     Map<String, DrawDate> inMemoryDatabase = new ConcurrentHashMap<>();
 

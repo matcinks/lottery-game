@@ -3,7 +3,6 @@ package org.mateusz.numbergenerator;
 import lombok.AllArgsConstructor;
 import org.mateusz.drawdate.DrawDateFacade;
 import org.mateusz.numbergenerator.dto.WinningNumbersDto;
-import org.mateusz.numberreceiver.DrawDateMapper;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
