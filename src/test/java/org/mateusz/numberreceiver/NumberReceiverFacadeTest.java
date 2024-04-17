@@ -2,7 +2,7 @@ package org.mateusz.numberreceiver;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mateusz.drawdate.DrawDateConfiguration;
+import org.mateusz.AdjustableClock;
 import org.mateusz.drawdate.DrawDateFacade;
 import org.mateusz.drawdate.dto.DrawDateDto;
 import org.mateusz.numberreceiver.dto.NumberReceiverResponseDto;
@@ -15,29 +15,21 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class NumberReceiverFacadeTest {
 
-    private static final ZonedDateTime NOW = ZonedDateTime.of(
-            2024,
-            1,
-            3,
-            12,
-            0,
-            0,
-            0,
-            ZoneId.of("GMT+1")
-    );
-//    private final Clock fixedClock = mock(Clock.class);
-//    private final DrawDateFacade drawDateFacade = new DrawDateConfiguration().createForTest(fixedClock);
+    private static final DrawDateDto DUMMY_DRAW_DATE_DTO = DrawDateDto.builder()
+            .id("001")
+            .time(LocalDateTime.now())
+            .build();
     private final DrawDateFacade drawDateFacade = mock(DrawDateFacade.class);
     private final InMemoryNumberReceiverRepositoryTestImpl numberReceiverTestRepository = new InMemoryNumberReceiverRepositoryTestImpl();
-//
-//    @BeforeEach
-//    void setUp() {
-//        given(fixedClock.getZone()).willReturn(NOW.getZone());
-//        given(fixedClock.instant()).willReturn(NOW.toInstant());
-//    }
+
+    @BeforeEach
+    public void setUp() {
+        when(drawDateFacade.getNextDrawDate()).thenReturn(DUMMY_DRAW_DATE_DTO);
+    }
 
     @Test
     void should_return_success_when_user_gave_six_numbers_in_range() {
@@ -97,14 +89,8 @@ class NumberReceiverFacadeTest {
     @Test
     void should_return_save_to_database_when_user_gave_six_numbers() {
         // given
-        Set<Integer> numbers = Set.of(1, 2, 3, 4, 5, 6);
         NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().createForTest(drawDateFacade, numberReceiverTestRepository);
-        TicketDto actual = numberReceiverFacade.inputNumbers(numbers).ticketDto();
-        DrawDateDto drawDateDto = DrawDateDto.builder()
-                .id("123")
-                .time(LocalDateTime.now())
-                .build();
-        given(drawDateFacade.getNextDrawDate()).willReturn(drawDateDto);
+        TicketDto actual = generateTicketDto(numberReceiverFacade, Set.of(1, 2, 3, 4, 5, 6));
         LocalDateTime drawDate = drawDateFacade.getNextDrawDate()
                 .time();
         // when
@@ -120,40 +106,10 @@ class NumberReceiverFacadeTest {
     }
 
     @Test
-    void should_return_correct_tickets_for_next_draw_date() {
-        // given
-        Instant sameDayInstant = NOW.toInstant();
-        Instant nextDayInstant = NOW.plusDays(1).toInstant();
-        Instant nextWeekInstant = NOW.plusWeeks(1).toInstant();
-
-//        given(fixedClock.instant()).willReturn(sameDayInstant, nextDayInstant, nextWeekInstant, sameDayInstant);
-
-        NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().createForTest(drawDateFacade, numberReceiverTestRepository);
-
-        Set<Integer> firstTicketNumbers = Set.of(1, 2, 3, 4, 5, 6);
-        Set<Integer> secondTicketNumbers = Set.of(7, 8, 9, 10, 11, 12);
-        Set<Integer> thirdTicketNumbers = Set.of(1, 2, 3, 10, 11, 12);
-
-        NumberReceiverResponseDto numberReceiverResponseDto1 = numberReceiverFacade.inputNumbers(firstTicketNumbers);
-        NumberReceiverResponseDto numberReceiverResponseDto2 = numberReceiverFacade.inputNumbers(secondTicketNumbers);
-        NumberReceiverResponseDto numberReceiverResponseDto3 = numberReceiverFacade.inputNumbers(thirdTicketNumbers);
-        TicketDto ticketDto1 = numberReceiverResponseDto1.ticketDto();
-        TicketDto ticketDto2 = numberReceiverResponseDto2.ticketDto();
-        TicketDto ticketDto3 = numberReceiverResponseDto3.ticketDto();
-        // when
-        List<TicketDto> listOfTickets = numberReceiverFacade.retrieveAllTicketsForNextDrawDate();
-        // then
-        assertThat(listOfTickets)
-                .hasSize(2)
-                .containsAll(List.of(ticketDto1, ticketDto2))
-                .doesNotContain(ticketDto3);
-    }
-
-    @Test
-    void should_return_empty_collection_if_there_ara_no_tickets() {
+    void should_return_empty_collection_if_there_are_no_tickets() {
         // given
         NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().createForTest(drawDateFacade, numberReceiverTestRepository);
-        LocalDateTime drawDate = DrawDateMapper.localDateTimeFromDrawDateDto(drawDateFacade.getNextDrawDate());
+        LocalDateTime drawDate = DrawDateMapper.drawDateTimeFromDrawDateDto(drawDateFacade.getNextDrawDate());
         // when
         List<TicketDto> listOfTickets = numberReceiverFacade.retrieveAllTicketsForNextDrawDate(drawDate);
         // then
@@ -168,7 +124,7 @@ class NumberReceiverFacadeTest {
         Set<Integer> ticketNumbers = Set.of(1, 2, 3, 4, 5, 6);
         numberReceiverFacade.inputNumbers(ticketNumbers);
 
-        LocalDateTime drawDate = DrawDateMapper.localDateTimeFromDrawDateDto(drawDateFacade.getNextDrawDate());
+        LocalDateTime drawDate = DrawDateMapper.drawDateTimeFromDrawDateDto(drawDateFacade.getNextDrawDate());
         LocalDateTime nextWeekDrawDate = drawDate.plusWeeks(1);
         // when
         List<TicketDto> listOfTickets = numberReceiverFacade.retrieveAllTicketsForNextDrawDate(nextWeekDrawDate);
@@ -176,4 +132,49 @@ class NumberReceiverFacadeTest {
         assertThat(listOfTickets).isEmpty();
     }
 
+    @Test
+    void should_return_all_tickets_for_draw_date_next_to_forwarded_date() {
+        // given
+        AdjustableClock clock = new AdjustableClock(Instant.now(), ZoneId.of("UTC"));
+        LocalDateTime currentTime = LocalDateTime.now(clock);
+        final int NEXT_DAY = 1;
+        final int ONE_WEEK = 7;
+
+        DrawDateDto drawDateDto = createDrawDateDto(clock, NEXT_DAY);
+        DrawDateDto drawDateDtoForWeekLater = createDrawDateDto(clock, ONE_WEEK);
+
+        NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().createForTest(drawDateFacade, numberReceiverTestRepository);
+
+        given(drawDateFacade.getNextDrawDate()).willReturn(drawDateDto,
+                drawDateDto,
+                drawDateDtoForWeekLater,
+                drawDateDto,
+                drawDateDtoForWeekLater);
+
+        TicketDto firstTicketDto = generateTicketDto(numberReceiverFacade, Set.of(1, 2, 3, 4, 5, 6));
+        TicketDto secondTicketDto = generateTicketDto(numberReceiverFacade, Set.of(7, 8, 9, 10, 11, 12));
+        List<TicketDto> listOfTicketsDtos = List.of(firstTicketDto, secondTicketDto);
+
+        TicketDto thirdTicketDto = generateTicketDto(numberReceiverFacade, Set.of(6, 5, 4, 3, 2, 1));
+
+        // when
+        List<TicketDto> retrievedFirstDrawingTicketsDtos = numberReceiverFacade.retrieveAllTicketsForNextDrawDate(currentTime);
+        List<TicketDto> retrievedSecondDrawingTicketsDtos = numberReceiverFacade.retrieveAllTicketsForNextDrawDate();
+
+        // then
+        assertThat(retrievedFirstDrawingTicketsDtos).containsExactlyInAnyOrderElementsOf(listOfTicketsDtos);
+        assertThat(retrievedFirstDrawingTicketsDtos).doesNotContain(thirdTicketDto);
+        assertThat(retrievedSecondDrawingTicketsDtos).contains(thirdTicketDto);
+    }
+
+    private DrawDateDto createDrawDateDto(AdjustableClock clock, int days) {
+        clock.plusDays(days);
+        return DrawDateDto.builder()
+                .time(LocalDateTime.now(clock))
+                .build();
+    }
+
+    private TicketDto generateTicketDto(NumberReceiverFacade numberReceiverFacade, Set<Integer> ticketNumbers) {
+        return numberReceiverFacade.inputNumbers(ticketNumbers).ticketDto();
+    }
 }

@@ -5,13 +5,11 @@ import org.mateusz.AdjustableClock;
 import org.mateusz.drawdate.dto.DrawDateDto;
 
 import java.time.*;
-import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class DrawDateFacadeTest {

@@ -8,7 +8,7 @@ public class WinningNumbersGeneratorConfiguration {
                                                 WinningNumbersGenerator winningNumbersGenerator,
                                                 WinningNumbersRepository winningNumbersRepository) {
         WinningNumbersValidator winningNumbersValidator = new WinningNumbersValidator();
-        return new WinningNumbersGeneratorFacade(drawDateFacade,winningNumbersGenerator, winningNumbersValidator, winningNumbersRepository);
+        return new WinningNumbersGeneratorFacade(drawDateFacade, winningNumbersGenerator, winningNumbersValidator, winningNumbersRepository);
     }
 
 }
