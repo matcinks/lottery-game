@@ -4,7 +4,8 @@ import lombok.Builder;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Set;
 
 @Builder
-public record WinningNumbersDto(Collection<Integer> winningNumbers, LocalDateTime drawDate) {
+public record WinningNumbersDto(Set<Integer> winningNumbers, LocalDateTime drawDate) {
 }

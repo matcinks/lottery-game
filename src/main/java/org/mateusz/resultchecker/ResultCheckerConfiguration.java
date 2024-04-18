@@ -5,9 +5,9 @@ import org.mateusz.numberreceiver.NumberReceiverFacade;
 
 public class ResultCheckerConfiguration {
 
-    ResultCheckerFacade createForTest(NumberReceiverFacade numberReceiverFacade, WinningNumbersGeneratorFacade winningNumbersGeneratorFacade) {
+    ResultCheckerFacade createForTest(NumberReceiverFacade numberReceiverFacade, WinningNumbersGeneratorFacade winningNumbersGeneratorFacade, PlayerRepository playerRepository) {
         WinnersRetriever winnersRetriever = new WinnersRetriever();
-        return new ResultCheckerFacade(numberReceiverFacade, winningNumbersGeneratorFacade, winnersRetriever);
+        return new ResultCheckerFacade(numberReceiverFacade, winningNumbersGeneratorFacade, winnersRetriever, playerRepository);
     }
 
 }

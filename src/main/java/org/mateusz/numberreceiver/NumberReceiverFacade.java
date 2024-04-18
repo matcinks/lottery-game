@@ -6,10 +6,7 @@ import org.mateusz.numberreceiver.dto.NumberReceiverResponseDto;
 import org.mateusz.numberreceiver.dto.TicketDto;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @AllArgsConstructor
 public class NumberReceiverFacade {
@@ -18,7 +15,7 @@ public class NumberReceiverFacade {
     private final NumberReceiverRepository repository;
     private final DrawDateFacade drawDateFacade;
 
-    public NumberReceiverResponseDto inputNumbers(Collection<Integer> numbersFromUser) {
+    public NumberReceiverResponseDto inputNumbers(Set<Integer> numbersFromUser) {
         boolean allNumbersAreInRange = validator.areAllNumbersInRange(numbersFromUser);
         if (allNumbersAreInRange) {
             String ticketId = UUID.randomUUID().toString();

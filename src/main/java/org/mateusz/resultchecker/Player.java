@@ -3,12 +3,12 @@ package org.mateusz.resultchecker;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.Set;
 
 @Builder
 record Player(String id,
-                     Collection<Integer> numbers,
-                     Collection<Integer> hitNumbers,
-                     LocalDateTime drawDate,
-                     boolean isWinner) {
+              Set<Integer> numbers,
+              Set<Integer> hitNumbers,
+              LocalDateTime drawDate,
+              boolean isWinner) {
 }

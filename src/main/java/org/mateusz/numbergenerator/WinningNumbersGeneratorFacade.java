@@ -6,6 +6,7 @@ import org.mateusz.numbergenerator.dto.WinningNumbersDto;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Set;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -19,7 +20,7 @@ public class WinningNumbersGeneratorFacade {
     public WinningNumbersDto generateWinningNumbers() {
         LocalDateTime nextDrawDate = DrawDateMapper.localDateTimeFromDrawDateDto(drawDateFacade.getNextDrawDate());
         String winningNumbersId = UUID.randomUUID().toString();
-        Collection<Integer> generatedWinningNumbers = winningNumbersGenerator.generateSixRandomNumbers();
+        Set<Integer> generatedWinningNumbers = winningNumbersGenerator.generateSixRandomNumbers();
 
         winningNumbersValidator.validate(generatedWinningNumbers);
         WinningNumbers winningNumbers = winningNumbersRepository.save(new WinningNumbers(winningNumbersId, generatedWinningNumbers, nextDrawDate));
@@ -29,5 +30,4 @@ public class WinningNumbersGeneratorFacade {
                 .drawDate(winningNumbers.drawDate())
                 .build();
     }
-
 }
