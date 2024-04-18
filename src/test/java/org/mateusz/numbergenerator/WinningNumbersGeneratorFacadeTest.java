@@ -86,7 +86,7 @@ class WinningNumbersGeneratorFacadeTest {
                 drawDateFacade,
                 winningNumbersGenerator,
                 winningNumbersTestRepository);
-        Collection<Integer> incorrectAmountOfWinningNumbers = Set.of(1, 2, 3, 4, 5);
+        Set<Integer> incorrectAmountOfWinningNumbers = Set.of(1, 2, 3, 4, 5);
         //when
         when(winningNumbersGenerator.generateSixRandomNumbers()).thenReturn(incorrectAmountOfWinningNumbers);
         //then
@@ -100,7 +100,7 @@ class WinningNumbersGeneratorFacadeTest {
                 drawDateFacade,
                 winningNumbersGenerator,
                 winningNumbersTestRepository);
-        Collection<Integer> atLeastOneOfWinningNumbersOutOfRange = Set.of(0, 1, 2, 3, 4, 5);
+        Set<Integer> atLeastOneOfWinningNumbersOutOfRange = Set.of(0, 1, 2, 3, 4, 5);
         //when
         when(winningNumbersGenerator.generateSixRandomNumbers()).thenReturn(atLeastOneOfWinningNumbersOutOfRange);
         //then
@@ -114,7 +114,7 @@ class WinningNumbersGeneratorFacadeTest {
                 drawDateFacade,
                 winningNumbersGenerator,
                 winningNumbersTestRepository);
-        Collection<Integer> atLeastOneOfWinningNumbersOutOfRange = Set.of(100, 1, 2, 3, 4, 5);
+        Set<Integer> atLeastOneOfWinningNumbersOutOfRange = Set.of(100, 1, 2, 3, 4, 5);
         //when
         when(winningNumbersGenerator.generateSixRandomNumbers()).thenReturn(atLeastOneOfWinningNumbersOutOfRange);
         //then

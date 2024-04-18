@@ -3,10 +3,10 @@ package org.mateusz.numberreceiver.dto;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.Set;
 
 @Builder
 public record TicketDto(String ticketId,
-                        Collection<Integer> numbers,
+                        Set<Integer> numbers,
                         LocalDateTime drawDate) {
 }

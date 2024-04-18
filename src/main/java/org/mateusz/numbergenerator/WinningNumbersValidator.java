@@ -25,5 +25,4 @@ class WinningNumbersValidator {
     private boolean notEnoughNumbers(Collection<Integer> winningNumbers) {
         return winningNumbers.size() != 6;
     }
-
 }

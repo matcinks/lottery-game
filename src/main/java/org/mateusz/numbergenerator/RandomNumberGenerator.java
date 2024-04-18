@@ -5,5 +5,4 @@ import java.util.Collection;
 public interface RandomNumberGenerator {
     
     Collection<Integer> generateSixRandomNumbers();
-    
 }

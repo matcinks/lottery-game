@@ -11,7 +11,7 @@ class WinningNumbersGenerator implements RandomNumberGenerator {
     private static final int MAX_NUMBER = 99;
 
     @Override
-    public Collection<Integer> generateSixRandomNumbers() {
+    public Set<Integer> generateSixRandomNumbers() {
         Set<Integer> winningNumbers = new HashSet<>();
         while (isAmountOfNumbersInsufficient(winningNumbers)) {
             int randomNumber = ThreadLocalRandom.current().nextInt(MIN_NUMBER, MAX_NUMBER + 1);
@@ -23,5 +23,4 @@ class WinningNumbersGenerator implements RandomNumberGenerator {
     private boolean isAmountOfNumbersInsufficient(Set<Integer> winningNumbers) {
         return winningNumbers.size() < 6;
     }
-
 }

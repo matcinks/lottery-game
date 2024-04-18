@@ -1,6 +1,7 @@
 package org.mateusz.resultchecker;
 
 import org.mateusz.numberreceiver.dto.TicketDto;
+import org.mateusz.resultchecker.dto.PlayerResultDto;
 
 import java.util.List;
 
@@ -16,4 +17,19 @@ class ResultCheckerMapper {
                 .toList();
     }
 
+    static List<PlayerResultDto> mapFromPlayers(List<Player> players) {
+        return players.stream()
+                .map(ResultCheckerMapper::mapFromPlayer)
+                .toList();
+    }
+
+    static PlayerResultDto mapFromPlayer(Player player) {
+        return PlayerResultDto.builder()
+                .id(player.id())
+                .numbers(player.numbers())
+                .hitNumbers(player.hitNumbers())
+                .drawDate(player.drawDate())
+                .isWinner(player.isWinner())
+                .build();
+    }
 }

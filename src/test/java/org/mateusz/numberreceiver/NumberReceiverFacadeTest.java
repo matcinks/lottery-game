@@ -78,7 +78,7 @@ class NumberReceiverFacadeTest {
     @Test
     void should_return_fail_when_user_gave_at_least_two_same_numbers() {
         //given
-        List<Integer> numbers = List.of(1, 1, 3, 4, 5, 6);
+        Set<Integer> numbers = Set.of(1, 1, 3, 4, 5, 6);
         NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().createForTest(drawDateFacade, numberReceiverTestRepository);
         //when
         NumberReceiverResponseDto actual = numberReceiverFacade.inputNumbers(numbers);
