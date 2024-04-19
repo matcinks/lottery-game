@@ -5,7 +5,6 @@ import org.mateusz.drawdate.DrawDateFacade;
 import org.mateusz.numbergenerator.dto.WinningNumbersDto;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.Set;
 import java.util.UUID;
 
@@ -13,21 +12,26 @@ import java.util.UUID;
 public class WinningNumbersGeneratorFacade {
 
     private final DrawDateFacade drawDateFacade;
-    private final WinningNumbersGenerator winningNumbersGenerator;
+    private final RandomNumberGenerator winningNumbersGenerator;
     private final WinningNumbersValidator winningNumbersValidator;
     private final WinningNumbersRepository winningNumbersRepository;
 
     public WinningNumbersDto generateWinningNumbers() {
-        LocalDateTime nextDrawDate = DrawDateMapper.localDateTimeFromDrawDateDto(drawDateFacade.getNextDrawDate());
+        LocalDateTime nextDrawDate = NumberGeneratorMapper.mapLocalDateTimeFromDrawDateDto(drawDateFacade.getNextDrawDate());
         String winningNumbersId = UUID.randomUUID().toString();
         Set<Integer> generatedWinningNumbers = winningNumbersGenerator.generateSixRandomNumbers();
 
         winningNumbersValidator.validate(generatedWinningNumbers);
-        WinningNumbers winningNumbers = winningNumbersRepository.save(new WinningNumbers(winningNumbersId, generatedWinningNumbers, nextDrawDate));
+        WinningNumbers winningNumbers = WinningNumbers.builder()
+                .id(winningNumbersId)
+                .winningNumbers(generatedWinningNumbers)
+                .drawDate(nextDrawDate)
+                .build();
+        WinningNumbers savedWinningNumbers = winningNumbersRepository.save(winningNumbers);
 
         return WinningNumbersDto.builder()
-                .winningNumbers(winningNumbers.winningNumbers())
-                .drawDate(winningNumbers.drawDate())
+                .winningNumbers(savedWinningNumbers.winningNumbers())
+                .drawDate(savedWinningNumbers.drawDate())
                 .build();
     }
 }

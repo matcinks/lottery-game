@@ -1,8 +1,8 @@
 package org.mateusz.numbergenerator;
 
-import java.util.Collection;
+import java.util.Set;
 
 public interface RandomNumberGenerator {
     
-    Collection<Integer> generateSixRandomNumbers();
+    Set<Integer> generateSixRandomNumbers();
 }
