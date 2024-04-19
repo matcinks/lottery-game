@@ -25,21 +25,21 @@ public class ResultCheckerFacade {
         List<Ticket> allTicketsByNextDrawDate = ResultCheckerMapper.mapFromTicketDto(allTicketsDtosByNextDrawDate);
         if (allTicketsByNextDrawDate == null || allTicketsByNextDrawDate.isEmpty()) {
             return PlayersResultsDto.builder()
-                    .message("Failed to retrieve tickets")
+                    .message(ResultMessages.TICKETS_NOT_FOUND)
                     .build();
         }
         WinningNumbersDto winningNumbersDto = winningNumbersGeneratorFacade.generateWinningNumbers();
         Set<Integer> winningNumbers = winningNumbersDto.winningNumbers();
         if (winningNumbers == null || winningNumbers.isEmpty()) {
             return PlayersResultsDto.builder()
-                    .message("Failed to retrieve winners")
+                    .message(ResultMessages.WINNERS_NOT_FOUND)
                     .build();
         }
         List<Player> winners = winnersRetriever.retrieveWinners(allTicketsByNextDrawDate, winningNumbers);
         repository.saveAll(winners);
         return PlayersResultsDto.builder()
                 .playersResults(ResultCheckerMapper.mapFromPlayers(winners))
-                .message("Winners retrieve successfully")
+                .message(ResultMessages.TICKETS_FOUND)
                 .build();
     }
 
@@ -48,7 +48,7 @@ public class ResultCheckerFacade {
         if (player.isPresent()) {
             return ResultCheckerMapper.mapFromPlayer(player.get());
         } else {
-            throw new PlayerResultNotFoundException("Result not found for player with id: " + id);
+            throw new PlayerResultNotFoundException(String.format(ResultMessages.NO_PLAYER_FOR_ID, id));
         }
     }
 }
