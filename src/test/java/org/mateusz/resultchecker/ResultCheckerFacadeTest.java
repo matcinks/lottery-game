@@ -9,9 +9,7 @@ import org.mateusz.resultchecker.dto.PlayerResultDto;
 import org.mateusz.resultchecker.dto.PlayersResultsDto;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -54,10 +52,8 @@ class ResultCheckerFacadeTest {
         PlayerResultDto playerResultDto2 = createPlayerResult("002", Set.of(1, 2, 3, 4, 5, 6), Set.of(1, 2, 3, 4, 5, 6), drawDate, true);
         PlayerResultDto playerResultDto3 = createPlayerResult("003", Set.of(7, 8, 9, 10, 11, 12), Set.of(), drawDate, false);
 
-        String successMessage = "Winners retrieve successfully";
-
         assertThat(listOfPlayersResultsDto).contains(playerResultDto1, playerResultDto2, playerResultDto3);
-        assertThat(playersResultsDto.message()).isEqualTo(successMessage);
+        assertThat(playersResultsDto.message()).isEqualTo(ResultMessages.TICKETS_FOUND);
     }
 
     private TicketDto createTicket(String id, Set<Integer> numbers, LocalDateTime drawDate) {
@@ -86,8 +82,7 @@ class ResultCheckerFacadeTest {
         // when
         PlayersResultsDto playersResultsDto = resultCheckerFacade.generateWinners();
         // then
-        String failMessage = "Failed to retrieve tickets";
-        assertThat(playersResultsDto.message()).isEqualTo(failMessage);
+        assertThat(playersResultsDto.message()).isEqualTo(ResultMessages.TICKETS_NOT_FOUND);
         assertThat(playersResultsDto.playersResults()).isNull();
     }
 
@@ -101,8 +96,7 @@ class ResultCheckerFacadeTest {
         // when
         PlayersResultsDto playersResultsDto = resultCheckerFacade.generateWinners();
         // then
-        String failMessage = "Failed to retrieve winners";
-        assertThat(playersResultsDto.message()).isEqualTo(failMessage);
+        assertThat(playersResultsDto.message()).isEqualTo(ResultMessages.WINNERS_NOT_FOUND);
         assertThat(playersResultsDto.playersResults()).isNull();
     }
 
