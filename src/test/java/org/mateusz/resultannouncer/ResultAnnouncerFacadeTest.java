@@ -1,11 +1,16 @@
 package org.mateusz.resultannouncer;
 
 import org.junit.jupiter.api.Test;
-import org.mateusz.resultannouncer.dto.ResultAnnouncerResponseDto;
-import org.mateusz.resultannouncer.dto.ResultDto;
-import org.mateusz.resultchecker.PlayerResultNotFoundException;
-import org.mateusz.resultchecker.ResultCheckerFacade;
-import org.mateusz.resultchecker.dto.PlayerResultDto;
+import org.mateusz.domain.resultannouncer.Result;
+import org.mateusz.domain.resultannouncer.ResultAnnouncerConfiguration;
+import org.mateusz.domain.resultannouncer.ResultAnnouncerFacade;
+import org.mateusz.domain.resultannouncer.ResultMapper;
+import org.mateusz.domain.resultannouncer.dto.ResultAnnouncerResponseDto;
+import org.mateusz.domain.resultannouncer.dto.ResultDto;
+import org.mateusz.domain.resultchecker.ResultMessages;
+import org.mateusz.domain.resultchecker.PlayerResultNotFoundException;
+import org.mateusz.domain.resultchecker.ResultCheckerFacade;
+import org.mateusz.domain.resultchecker.dto.PlayerResultDto;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -33,7 +38,7 @@ class ResultAnnouncerFacadeTest {
         ResultAnnouncerResponseDto resultAnnouncerResponseDto = resultAnnouncerFacade.checkResult(resultId);
         // then
         assertThat(resultAnnouncerResponseDto.resultDto()).isEqualTo(ResultMapper.mapFromResult(cachedResult));
-        assertEquals(resultAnnouncerResponseDto.message(), ResultMessages.ALREADY_CHECKED);
+        assertEquals(resultAnnouncerResponseDto.message(), org.mateusz.domain.resultannouncer.ResultMessages.ALREADY_CHECKED);
     }
 
     @Test
@@ -41,11 +46,11 @@ class ResultAnnouncerFacadeTest {
         // given
         String id = "001";
         ResultAnnouncerFacade resultAnnouncerFacade = new ResultAnnouncerConfiguration().createForTest(repository, resultCheckerFacade);
-        given(resultCheckerFacade.findById(id)).willThrow(new PlayerResultNotFoundException(org.mateusz.resultchecker.ResultMessages.NO_PLAYER_FOR_ID));
+        given(resultCheckerFacade.findById(id)).willThrow(new PlayerResultNotFoundException(ResultMessages.NO_PLAYER_FOR_ID));
         // when
         ResultAnnouncerResponseDto resultAnnouncerResponseDto = resultAnnouncerFacade.checkResult(id);
         // then
-        String expectedMessage = String.format(ResultMessages.NOT_FOUND, id);
+        String expectedMessage = String.format(org.mateusz.domain.resultannouncer.ResultMessages.NOT_FOUND, id);
         assertThat(resultAnnouncerResponseDto.message()).isEqualTo(expectedMessage);
         assertThat(resultAnnouncerResponseDto.resultDto()).isNull();
     }
@@ -74,7 +79,7 @@ class ResultAnnouncerFacadeTest {
         assertThat(resultDto.hitNumbers()).isEqualTo(playerResultDto.hitNumbers());
         assertThat(resultDto.drawDate()).isEqualTo(playerResultDto.drawDate());
         assertThat(resultDto.isWinner()).isEqualTo(playerResultDto.isWinner());
-        assertThat(resultAnnouncerResponseDto.message()).isEqualTo(ResultMessages.WIN);
+        assertThat(resultAnnouncerResponseDto.message()).isEqualTo(org.mateusz.domain.resultannouncer.ResultMessages.WIN);
     }
 
     @Test
@@ -101,7 +106,7 @@ class ResultAnnouncerFacadeTest {
         assertThat(resultDto.hitNumbers()).isEqualTo(playerResultDto.hitNumbers());
         assertThat(resultDto.drawDate()).isEqualTo(playerResultDto.drawDate());
         assertThat(resultDto.isWinner()).isEqualTo(playerResultDto.isWinner());
-        assertThat(resultAnnouncerResponseDto.message()).isEqualTo(ResultMessages.LOSE);
+        assertThat(resultAnnouncerResponseDto.message()).isEqualTo(org.mateusz.domain.resultannouncer.ResultMessages.LOSE);
     }
 
     @Test
@@ -126,7 +131,7 @@ class ResultAnnouncerFacadeTest {
         assertThat(resultDto.hitNumbers()).isEqualTo(playerResultDto.hitNumbers());
         assertThat(resultDto.drawDate()).isEqualTo(playerResultDto.drawDate());
         assertThat(resultDto.isWinner()).isEqualTo(playerResultDto.isWinner());
-        String expectedMessage = String.format(ResultMessages.WAITING_MESSAGE, daysToShift);
+        String expectedMessage = String.format(org.mateusz.domain.resultannouncer.ResultMessages.WAITING_MESSAGE, daysToShift);
         assertThat(resultAnnouncerResponseDto.message()).isEqualTo(expectedMessage);
     }
 }

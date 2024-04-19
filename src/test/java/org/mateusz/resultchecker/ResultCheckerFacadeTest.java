@@ -1,12 +1,13 @@
 package org.mateusz.resultchecker;
 
 import org.junit.jupiter.api.Test;
-import org.mateusz.numbergenerator.WinningNumbersGeneratorFacade;
-import org.mateusz.numbergenerator.dto.WinningNumbersDto;
-import org.mateusz.numberreceiver.NumberReceiverFacade;
-import org.mateusz.numberreceiver.dto.TicketDto;
-import org.mateusz.resultchecker.dto.PlayerResultDto;
-import org.mateusz.resultchecker.dto.PlayersResultsDto;
+import org.mateusz.domain.numbergenerator.WinningNumbersGeneratorFacade;
+import org.mateusz.domain.numbergenerator.dto.WinningNumbersDto;
+import org.mateusz.domain.numberreceiver.NumberReceiverFacade;
+import org.mateusz.domain.numberreceiver.dto.TicketDto;
+import org.mateusz.domain.resultchecker.*;
+import org.mateusz.domain.resultchecker.dto.PlayerResultDto;
+import org.mateusz.domain.resultchecker.dto.PlayersResultsDto;
 
 import java.time.LocalDateTime;
 import java.util.List;

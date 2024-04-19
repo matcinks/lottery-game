@@ -1,11 +1,14 @@
 package org.mateusz.resultchecker;
 
+import org.mateusz.domain.resultchecker.Player;
+import org.mateusz.domain.resultchecker.PlayerRepository;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class InMemoryPlayerResultRepositoryTestImpl implements PlayerRepository{
+public class InMemoryPlayerResultRepositoryTestImpl implements PlayerRepository {
     Map<String, Player> inMemoryDatabase = new ConcurrentHashMap();
 
     @Override

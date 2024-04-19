@@ -1,10 +1,13 @@
 package org.mateusz.resultannouncer;
 
+import org.mateusz.domain.resultannouncer.Result;
+import org.mateusz.domain.resultannouncer.ResultAnnouncerRepository;
+
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class InMemoryResultAnnouncerRepositoryTestImpl implements ResultAnnouncerRepository{
+public class InMemoryResultAnnouncerRepositoryTestImpl implements ResultAnnouncerRepository {
 
     private final Map<String, Result> inMemoryDatabase = new ConcurrentHashMap<>();
 
