@@ -11,12 +11,4 @@ class TicketMapper {
                 .drawDate(ticket.drawDate())
                 .build();
     }
-
-    public static Ticket mapFromTicketDto(TicketDto ticketDto) {
-        return Ticket.builder()
-                .ticketId(ticketDto.ticketId())
-                .numbersFromUser(ticketDto.numbers())
-                .drawDate(ticketDto.drawDate())
-                .build();
-    }
 }
