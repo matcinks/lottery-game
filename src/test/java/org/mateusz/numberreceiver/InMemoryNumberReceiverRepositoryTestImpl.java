@@ -1,5 +1,8 @@
 package org.mateusz.numberreceiver;
 
+import org.mateusz.domain.numberreceiver.NumberReceiverRepository;
+import org.mateusz.domain.numberreceiver.Ticket;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;

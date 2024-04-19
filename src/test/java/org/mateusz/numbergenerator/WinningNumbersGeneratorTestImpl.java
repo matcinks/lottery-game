@@ -1,5 +1,7 @@
 package org.mateusz.numbergenerator;
 
+import org.mateusz.domain.numbergenerator.RandomNumberGenerator;
+
 import java.util.Set;
 
 public class WinningNumbersGeneratorTestImpl implements RandomNumberGenerator {

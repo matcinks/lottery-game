@@ -3,10 +3,13 @@ package org.mateusz.numberreceiver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mateusz.AdjustableClock;
-import org.mateusz.drawdate.DrawDateFacade;
-import org.mateusz.drawdate.dto.DrawDateDto;
-import org.mateusz.numberreceiver.dto.NumberReceiverResponseDto;
-import org.mateusz.numberreceiver.dto.TicketDto;
+import org.mateusz.domain.drawdate.DrawDateFacade;
+import org.mateusz.domain.drawdate.dto.DrawDateDto;
+import org.mateusz.domain.numberreceiver.DrawDateMapper;
+import org.mateusz.domain.numberreceiver.NumberReceiverConfiguration;
+import org.mateusz.domain.numberreceiver.NumberReceiverFacade;
+import org.mateusz.domain.numberreceiver.dto.NumberReceiverResponseDto;
+import org.mateusz.domain.numberreceiver.dto.TicketDto;
 
 import java.time.*;
 import java.util.List;
