@@ -22,11 +22,16 @@ public class WinningNumbersGeneratorFacade {
         Set<Integer> generatedWinningNumbers = winningNumbersGenerator.generateSixRandomNumbers();
 
         winningNumbersValidator.validate(generatedWinningNumbers);
-        WinningNumbers winningNumbers = winningNumbersRepository.save(new WinningNumbers(winningNumbersId, generatedWinningNumbers, nextDrawDate));
+        WinningNumbers winningNumbers = WinningNumbers.builder()
+                .id(winningNumbersId)
+                .winningNumbers(generatedWinningNumbers)
+                .drawDate(nextDrawDate)
+                .build();
+        WinningNumbers savedWinningNumbers = winningNumbersRepository.save(winningNumbers);
 
         return WinningNumbersDto.builder()
-                .winningNumbers(winningNumbers.winningNumbers())
-                .drawDate(winningNumbers.drawDate())
+                .winningNumbers(savedWinningNumbers.winningNumbers())
+                .drawDate(savedWinningNumbers.drawDate())
                 .build();
     }
 }
