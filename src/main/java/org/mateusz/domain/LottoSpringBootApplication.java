@@ -9,5 +9,3 @@ public class LottoSpringBootApplication {
         SpringApplication.run(LottoSpringBootApplication.class, args);
     }
 }
-
-

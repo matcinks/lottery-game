@@ -1,7 +1,4 @@
-package org.mateusz.resultchecker;
-
-import org.mateusz.domain.resultchecker.Player;
-import org.mateusz.domain.resultchecker.PlayerRepository;
+package org.mateusz.domain.resultchecker;
 
 import java.util.List;
 import java.util.Map;

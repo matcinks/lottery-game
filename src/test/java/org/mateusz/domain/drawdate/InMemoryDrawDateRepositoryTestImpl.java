@@ -1,7 +1,4 @@
-package org.mateusz.drawdate;
-
-import org.mateusz.domain.drawdate.DrawDate;
-import org.mateusz.domain.drawdate.DrawDateRepository;
+package org.mateusz.domain.drawdate;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;

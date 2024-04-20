@@ -1,10 +1,6 @@
-package org.mateusz.resultannouncer;
+package org.mateusz.domain.resultannouncer;
 
 import org.junit.jupiter.api.Test;
-import org.mateusz.domain.resultannouncer.Result;
-import org.mateusz.domain.resultannouncer.ResultAnnouncerConfiguration;
-import org.mateusz.domain.resultannouncer.ResultAnnouncerFacade;
-import org.mateusz.domain.resultannouncer.ResultMapper;
 import org.mateusz.domain.resultannouncer.dto.ResultAnnouncerResponseDto;
 import org.mateusz.domain.resultannouncer.dto.ResultDto;
 import org.mateusz.domain.resultchecker.ResultMessages;
