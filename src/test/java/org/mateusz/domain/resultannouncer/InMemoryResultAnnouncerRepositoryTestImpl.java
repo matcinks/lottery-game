@@ -1,7 +1,4 @@
-package org.mateusz.resultannouncer;
-
-import org.mateusz.domain.resultannouncer.Result;
-import org.mateusz.domain.resultannouncer.ResultAnnouncerRepository;
+package org.mateusz.domain.resultannouncer;
 
 import java.util.Map;
 import java.util.Optional;

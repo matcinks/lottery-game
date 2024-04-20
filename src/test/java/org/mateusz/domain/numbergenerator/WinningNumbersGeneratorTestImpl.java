@@ -1,6 +1,4 @@
-package org.mateusz.numbergenerator;
-
-import org.mateusz.domain.numbergenerator.RandomNumberGenerator;
+package org.mateusz.domain.numbergenerator;
 
 import java.util.Set;
 

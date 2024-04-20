@@ -1,4 +1,4 @@
-package org.mateusz;
+package org.mateusz.domain;
 
 import java.time.*;
 

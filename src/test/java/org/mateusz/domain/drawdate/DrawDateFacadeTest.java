@@ -1,11 +1,7 @@
-package org.mateusz.drawdate;
+package org.mateusz.domain.drawdate;
 
 import org.junit.jupiter.api.Test;
-import org.mateusz.AdjustableClock;
-import org.mateusz.domain.drawdate.DrawDateConfiguration;
-import org.mateusz.domain.drawdate.DrawDateFacade;
-import org.mateusz.domain.drawdate.DrawDateMapper;
-import org.mateusz.domain.drawdate.DrawDateRepository;
+import org.mateusz.domain.AdjustableClock;
 import org.mateusz.domain.drawdate.dto.DrawDateDto;
 
 import java.time.*;

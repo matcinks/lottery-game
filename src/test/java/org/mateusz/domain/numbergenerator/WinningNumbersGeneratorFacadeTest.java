@@ -1,10 +1,9 @@
-package org.mateusz.numbergenerator;
+package org.mateusz.domain.numbergenerator;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mateusz.domain.drawdate.DrawDateFacade;
 import org.mateusz.domain.drawdate.dto.DrawDateDto;
-import org.mateusz.domain.numbergenerator.*;
 import org.mateusz.domain.numbergenerator.dto.WinningNumbersDto;
 
 import java.time.LocalDateTime;

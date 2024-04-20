@@ -1,7 +1,4 @@
-package org.mateusz.numbergenerator;
-
-import org.mateusz.domain.numbergenerator.WinningNumbers;
-import org.mateusz.domain.numbergenerator.WinningNumbersRepository;
+package org.mateusz.domain.numbergenerator;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
