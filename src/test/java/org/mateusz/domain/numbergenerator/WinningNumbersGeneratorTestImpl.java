@@ -1,21 +1,25 @@
 package org.mateusz.domain.numbergenerator;
 
+import org.mateusz.domain.numbergenerator.dto.SixRandomNumbersDto;
+
 import java.util.Set;
 
-public class WinningNumbersGeneratorTestImpl implements RandomNumberGenerator {
+public class WinningNumbersGeneratorTestImpl implements RandomNumberGenerable {
 
-    private final Set<Integer> randomNumbers;
+    private final Set<Integer> generatedNumbers;
 
     public WinningNumbersGeneratorTestImpl() {
-        randomNumbers = Set.of(1, 2, 3, 4, 5, 6);
+        generatedNumbers = Set.of(1, 2, 3, 4, 5, 6);
     }
 
     public WinningNumbersGeneratorTestImpl(Set<Integer> numbers) {
-        this.randomNumbers = numbers;
+        this.generatedNumbers = numbers;
     }
 
     @Override
-    public Set<Integer> generateSixRandomNumbers() {
-        return randomNumbers;
+    public SixRandomNumbersDto generateSixRandomNumbers() {
+        return SixRandomNumbersDto.builder()
+                .numbers(generatedNumbers)
+                .build();
     }
 }

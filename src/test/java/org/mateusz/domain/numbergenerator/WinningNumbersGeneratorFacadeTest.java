@@ -21,7 +21,6 @@ class WinningNumbersGeneratorFacadeTest {
             .build();
     private final DrawDateFacade drawDateFacade = mock(DrawDateFacade.class);
     private final WinningNumbersRepository winningNumbersTestRepository = new InMemoryWinningNumbersRepositoryTestImpl();
-    private final SecureRandomOneNumberFetcher fetcher = new SecureRandomOneNumberFetcher();
 
     @BeforeEach
     public void setUp() {
@@ -31,7 +30,7 @@ class WinningNumbersGeneratorFacadeTest {
     @Test
     void should_return_six_winning_numbers() {
         //given
-        RandomNumberGenerator winningNumbersGenerator = new WinningNumbersGenerator(fetcher);
+        RandomNumberGenerable winningNumbersGenerator = new WinningNumbersGeneratorTestImpl();
         WinningNumbersGeneratorFacade winningNumbersGeneratorFacade = new WinningNumbersGeneratorConfiguration().createForTest(
                 drawDateFacade,
                 winningNumbersGenerator,
@@ -45,7 +44,7 @@ class WinningNumbersGeneratorFacadeTest {
     @Test
     void should_return_six_distinct_winning_numbers() {
         //given
-        RandomNumberGenerator winningNumbersGenerator = new WinningNumbersGenerator(fetcher);
+        RandomNumberGenerable winningNumbersGenerator = new WinningNumbersGeneratorTestImpl();
         WinningNumbersGeneratorFacade winningNumbersGeneratorFacade = new WinningNumbersGeneratorConfiguration().createForTest(
                 drawDateFacade,
                 winningNumbersGenerator,
@@ -60,7 +59,7 @@ class WinningNumbersGeneratorFacadeTest {
     @Test
     void should_return_six_winning_numbers_in_range_between_1_and_99() {
         //given
-        RandomNumberGenerator winningNumbersGenerator = new WinningNumbersGenerator(fetcher);
+        RandomNumberGenerable winningNumbersGenerator = new WinningNumbersGeneratorTestImpl();
         WinningNumbersGeneratorFacade winningNumbersGeneratorFacade = new WinningNumbersGeneratorConfiguration().createForTest(
                 drawDateFacade,
                 winningNumbersGenerator,
@@ -79,7 +78,7 @@ class WinningNumbersGeneratorFacadeTest {
     @Test
     void should_throw_winning_numbers_not_found_exception_when_less_than_6_winning_numbers() {
         //given
-        RandomNumberGenerator winningNumbersGenerator = new WinningNumbersGeneratorTestImpl(Set.of(1, 2, 3, 4, 5));
+        RandomNumberGenerable winningNumbersGenerator = new WinningNumbersGeneratorTestImpl(Set.of(1, 2, 3, 4, 5));
         WinningNumbersGeneratorFacade winningNumbersGeneratorFacade = new WinningNumbersGeneratorConfiguration().createForTest(
                 drawDateFacade,
                 winningNumbersGenerator,
@@ -92,7 +91,7 @@ class WinningNumbersGeneratorFacadeTest {
     @Test
     void should_throw_winning_numbers_not_found_exception_when_at_least_1_winning_number_out_of_lower_range() {
         //given
-        RandomNumberGenerator winningNumbersGenerator = new WinningNumbersGeneratorTestImpl(Set.of(0, 2, 3, 4, 5, 6));
+        RandomNumberGenerable winningNumbersGenerator = new WinningNumbersGeneratorTestImpl(Set.of(0, 2, 3, 4, 5, 6));
         WinningNumbersGeneratorFacade winningNumbersGeneratorFacade = new WinningNumbersGeneratorConfiguration().createForTest(
                 drawDateFacade,
                 winningNumbersGenerator,
@@ -105,7 +104,7 @@ class WinningNumbersGeneratorFacadeTest {
     @Test
     void should_throw_winning_numbers_not_found_exception_when_at_least_1_winning_number_out_of_upper_range() {
         //given
-        RandomNumberGenerator winningNumbersGenerator = new WinningNumbersGeneratorTestImpl(Set.of(1, 2, 3, 4, 5, 100));
+        RandomNumberGenerable winningNumbersGenerator = new WinningNumbersGeneratorTestImpl(Set.of(1, 2, 3, 4, 5, 100));
         WinningNumbersGeneratorFacade winningNumbersGeneratorFacade = new WinningNumbersGeneratorConfiguration().createForTest(
                 drawDateFacade,
                 winningNumbersGenerator,
