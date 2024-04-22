@@ -2,6 +2,7 @@ package org.mateusz.domain.numbergenerator;
 
 import lombok.AllArgsConstructor;
 import org.mateusz.domain.drawdate.DrawDateFacade;
+import org.mateusz.domain.numbergenerator.dto.SixRandomNumbersDto;
 import org.mateusz.domain.numbergenerator.dto.WinningNumbersDto;
 
 import java.time.LocalDateTime;
@@ -12,19 +13,19 @@ import java.util.UUID;
 public class WinningNumbersGeneratorFacade {
 
     private final DrawDateFacade drawDateFacade;
-    private final RandomNumberGenerator winningNumbersGenerator;
+    private final RandomNumberGenerable randomGenerable;
     private final WinningNumbersValidator winningNumbersValidator;
     private final WinningNumbersRepository winningNumbersRepository;
 
     public WinningNumbersDto generateWinningNumbers() {
         LocalDateTime nextDrawDate = NumberGeneratorMapper.mapLocalDateTimeFromDrawDateDto(drawDateFacade.getNextDrawDate());
         String winningNumbersId = UUID.randomUUID().toString();
-        Set<Integer> generatedWinningNumbers = winningNumbersGenerator.generateSixRandomNumbers();
-
-        winningNumbersValidator.validate(generatedWinningNumbers);
+        SixRandomNumbersDto winningNumbersDto = randomGenerable.generateSixRandomNumbers();
+        Set<Integer> winningNumber = winningNumbersDto.numbers();
+        winningNumbersValidator.validate(winningNumber);
         WinningNumbers winningNumbers = WinningNumbers.builder()
                 .id(winningNumbersId)
-                .winningNumbers(generatedWinningNumbers)
+                .winningNumbers(winningNumber)
                 .drawDate(nextDrawDate)
                 .build();
         WinningNumbers savedWinningNumbers = winningNumbersRepository.save(winningNumbers);
