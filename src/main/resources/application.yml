@@ -2,3 +2,17 @@ spring:
   data:
     mongodb:
       uri: mongodb://admin:admin@localhost:27017/lotto-web
+
+lotto:
+  number-generator:
+    facade:
+      count: 6
+      lower-band: 1
+      upper-band: 99
+    http:
+      client:
+        config:
+          uri: http://randomnumberapi.com
+          port: 80
+          connection-timeout: 5000
+          read-timeout: 5000
