@@ -16,11 +16,12 @@ public class WinningNumbersGeneratorFacade {
     private final RandomNumberGenerable randomGenerable;
     private final WinningNumbersValidator winningNumbersValidator;
     private final WinningNumbersRepository winningNumbersRepository;
+    private final WinningNumbersGeneratorFacadeConfigurationProperties properties;
 
     public WinningNumbersDto generateWinningNumbers() {
         LocalDateTime nextDrawDate = NumberGeneratorMapper.mapLocalDateTimeFromDrawDateDto(drawDateFacade.getNextDrawDate());
         String winningNumbersId = UUID.randomUUID().toString();
-        SixRandomNumbersDto winningNumbersDto = randomGenerable.generateSixRandomNumbers();
+        SixRandomNumbersDto winningNumbersDto = randomGenerable.generateSixRandomNumbers(properties.lowerBand(), properties.upperBand(), properties.count());
         Set<Integer> winningNumber = winningNumbersDto.numbers();
         winningNumbersValidator.validate(winningNumber);
         WinningNumbers winningNumbers = WinningNumbers.builder()
