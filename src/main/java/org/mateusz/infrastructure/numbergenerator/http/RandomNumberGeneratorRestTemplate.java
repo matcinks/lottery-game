@@ -6,7 +6,6 @@ import org.mateusz.domain.numbergenerator.RandomNumberGenerable;
 import org.mateusz.domain.numbergenerator.dto.SixRandomNumbersDto;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
-import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -29,7 +28,6 @@ public class RandomNumberGeneratorRestTemplate implements RandomNumberGenerable 
         log.info("Starting fetching winning numbers using http client");
         HttpHeaders headers = new HttpHeaders();
         final HttpEntity<HttpHeaders> requestEntity = new HttpEntity<>(headers);
-
         try {
             final ResponseEntity<List<Integer>> response = makeGetRequest(lowerBand, upperBand, count, requestEntity);
             Set<Integer> sixDistinctNumbers = getSixDistinctRandomNumbers(response);
@@ -40,7 +38,7 @@ public class RandomNumberGeneratorRestTemplate implements RandomNumberGenerable 
             return SixRandomNumbersDto.builder()
                     .numbers(sixDistinctNumbers)
                     .build();
-        } catch(ResourceAccessException e) {
+        } catch(Exception e) {
             log.error("Error while fetching winning numbers using http client: " + e.getMessage());
             return SixRandomNumbersDto.builder()
                     .build();
@@ -53,13 +51,12 @@ public class RandomNumberGeneratorRestTemplate implements RandomNumberGenerable 
                 .queryParam("max", upperBand)
                 .queryParam("count", count)
                 .toUriString();
-        ResponseEntity<List<Integer>> response = restTemplate.exchange(
+        return restTemplate.exchange(
                 url,
                 HttpMethod.GET,
                 requestEntity,
                 new ParameterizedTypeReference<>() {
                 });
-        return response;
     }
 
     private Set<Integer> getSixDistinctRandomNumbers(ResponseEntity<List<Integer>> response) {

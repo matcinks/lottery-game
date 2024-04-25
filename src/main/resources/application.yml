@@ -12,7 +12,7 @@ lotto:
     http:
       client:
         config:
-          uri: http://randomnumberapi.com
-          port: 80
+          uri: http://ec2-3-120-147-150.eu-central-1.compute.amazonaws.com
+          port: 9090
           connection-timeout: 5000
           read-timeout: 5000

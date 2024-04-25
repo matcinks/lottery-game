@@ -29,11 +29,11 @@ public class WinningNumbersGeneratorFacade {
                 .winningNumbers(winningNumber)
                 .drawDate(nextDrawDate)
                 .build();
-        WinningNumbers savedWinningNumbers = winningNumbersRepository.save(winningNumbers);
+//        WinningNumbers savedWinningNumbers = winningNumbersRepository.save(winningNumbers);
 
         return WinningNumbersDto.builder()
-                .winningNumbers(savedWinningNumbers.winningNumbers())
-                .drawDate(savedWinningNumbers.drawDate())
+                .winningNumbers(winningNumbers.winningNumbers())
+                .drawDate(winningNumbers.drawDate())
                 .build();
     }
 }

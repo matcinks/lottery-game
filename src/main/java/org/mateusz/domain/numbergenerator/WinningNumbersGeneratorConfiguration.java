@@ -8,10 +8,19 @@ import org.springframework.context.annotation.Configuration;
 public class WinningNumbersGeneratorConfiguration {
 
     @Bean
+    WinningNumbersRepository winningNumbersRepository() {
+        return new WinningNumbersRepository() {
+            @Override
+            public WinningNumbers save(WinningNumbers winningNumbers) {
+                return null;
+            }
+        };
+    }
+
+    @Bean
     WinningNumbersGeneratorFacade winningNumbersGeneratorFacade(DrawDateFacade drawDateFacade, RandomNumberGenerable winningNumbersGenerator, WinningNumbersRepository winningNumbersRepository, WinningNumbersGeneratorFacadeConfigurationProperties properties) {
         WinningNumbersValidator winningNumbersValidator = new WinningNumbersValidator();
-
-        return new WinningNumbersGeneratorFacade(drawDateFacade, winningNumbersGenerator, winningNumbersRepository, properties);
+        return new WinningNumbersGeneratorFacade(drawDateFacade, winningNumbersGenerator, winningNumbersValidator, winningNumbersRepository, properties);
     }
 
     WinningNumbersGeneratorFacade createForTest(DrawDateFacade drawDateFacade,
@@ -22,6 +31,8 @@ public class WinningNumbersGeneratorConfiguration {
                 .upperBand(99)
                 .count(6)
                 .build();
-        return new WinningNumbersGeneratorFacade(drawDateFacade, winningNumbersGenerator, winningNumbersValidator, winningNumbersRepository, properties);
+        return winningNumbersGeneratorFacade(drawDateFacade, winningNumbersGenerator, winningNumbersRepository, properties);
+//        WinningNumbersValidator winningNumbersValidator = new WinningNumbersValidator();
+//        return new WinningNumbersGeneratorFacade(drawDateFacade, winningNumbersGenerator, winningNumbersValidator, winningNumbersRepository, properties);
     }
 }
