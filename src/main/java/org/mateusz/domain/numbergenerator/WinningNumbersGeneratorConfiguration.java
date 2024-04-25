@@ -4,6 +4,9 @@ import org.mateusz.domain.drawdate.DrawDateFacade;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 @Configuration
 public class WinningNumbersGeneratorConfiguration {
 
@@ -13,6 +16,11 @@ public class WinningNumbersGeneratorConfiguration {
             @Override
             public WinningNumbers save(WinningNumbers winningNumbers) {
                 return null;
+            }
+
+            @Override
+            public Optional<WinningNumbers> findNumbersByDate(LocalDateTime date) {
+                return Optional.empty();
             }
         };
     }

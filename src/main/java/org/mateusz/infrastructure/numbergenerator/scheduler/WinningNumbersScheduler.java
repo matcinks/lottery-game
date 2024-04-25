@@ -18,6 +18,7 @@ public class WinningNumbersScheduler {
     public void generateWinningNumbers() {
         log.info("Winning numbers scheduler enabled");
         WinningNumbersDto winningNumbersDto = winningNumbersGeneratorFacade.generateWinningNumbers();
-        log.info(winningNumbersDto);
+        log.info(winningNumbersDto.winningNumbers());
+        log.info(winningNumbersDto.drawDate());
     }
 }

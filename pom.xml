@@ -26,6 +26,7 @@
         <mockito-core.version>5.4.0</mockito-core.version>
         <testcontainers.version>1.19.3</testcontainers.version>
         <wiremock.version>3.0.1</wiremock.version>
+        <awaitility.version>4.2.1</awaitility.version>
     </properties>
 
     <dependencies>
@@ -96,6 +97,13 @@
             <groupId>com.github.tomakehurst</groupId>
             <artifactId>wiremock-standalone</artifactId>
             <version>${wiremock.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- awaitility-->
+        <dependency>
+            <groupId>org.awaitility</groupId>
+            <artifactId>awaitility</artifactId>
+            <version>${awaitility.version}</version>
             <scope>test</scope>
         </dependency>
 
