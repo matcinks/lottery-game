@@ -1,12 +1,17 @@
 package org.mateusz.domain.numbergenerator;
 
 import lombok.Builder;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 import java.util.Set;
 
 @Builder
-record WinningNumbers(String id,
-                      Set<Integer> winningNumbers,
-                      LocalDateTime drawDate) {
+@Document
+record WinningNumbers(
+        @Id
+        String id,
+        Set<Integer> winningNumbers,
+        LocalDateTime date) {
 }
