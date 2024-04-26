@@ -1,4 +1,6 @@
 spring:
+  main:
+    allow-bean-definition-overriding: true # property allowing overriding beans for clock overriding, one bean of clock for app, one for integration testing
   data:
     mongodb:
       uri: mongodb://admin:admin@localhost:27017/lotto-web
@@ -7,7 +9,7 @@ lotto:
   number-generator:
     lotteryRunOccurrence: "0 0 12 * * 6" # cron scheduled for each Saturday at noon (12:00)
     facade:
-      count: 6
+      count: 25
       lower-band: 1
       upper-band: 99
     http:

@@ -31,22 +31,22 @@ public class UserPlayedLottoAndWonIntegrationTest extends BaseIntegrationTest {
                                 """.trim()
                         )));
         // given
-        LocalDateTime drawDate = LocalDateTime.of(2023, 2, 25, 12, 0, 0, 0);
-        // when
+        LocalDateTime drawDate = LocalDateTime.of(2022, 11, 19, 12, 0, 0, 0);
+        // when & then
         await()
                 .atMost(Duration.ofSeconds(20))
                 .pollInterval(Duration.ofSeconds(1))
-                .until(
-                        () -> {
+                .until(() -> {
                             try {
-                                return !winningNumbersGeneratorFacade.retrieveWinningNumbersByDate(drawDate).winningNumbers().isEmpty();
+                                return !winningNumbersGeneratorFacade.retrieveWinningNumbersByDate(drawDate)
+                                        .winningNumbers()
+                                        .isEmpty();
                             } catch (WinningNumbersNotFoundException e) {
                                 return false;
                             }
                         }
                 );
 
-        // then
 
     }
 }

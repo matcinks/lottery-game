@@ -6,7 +6,6 @@ import org.mateusz.domain.numbergenerator.dto.SixRandomNumbersDto;
 import org.mateusz.domain.numbergenerator.dto.WinningNumbersDto;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -25,16 +24,15 @@ public class WinningNumbersGeneratorFacade {
         SixRandomNumbersDto winningNumbersDto = randomGenerable.generateSixRandomNumbers(properties.lowerBand(), properties.upperBand(), properties.count());
         Set<Integer> winningNumber = winningNumbersDto.numbers();
         winningNumbersValidator.validate(winningNumber);
-        WinningNumbers winningNumbers = WinningNumbers.builder()
+        WinningNumbers winningNumbersDocument = WinningNumbers.builder()
                 .id(winningNumbersId)
                 .winningNumbers(winningNumber)
-                .drawDate(nextDrawDate)
+                .date(nextDrawDate)
                 .build();
-//        WinningNumbers savedWinningNumbers = winningNumbersRepository.save(winningNumbers);
-
+        WinningNumbers savedWinningNumbers = winningNumbersRepository.save(winningNumbersDocument);
         return WinningNumbersDto.builder()
-                .winningNumbers(winningNumbers.winningNumbers())
-                .drawDate(winningNumbers.drawDate())
+                .winningNumbers(savedWinningNumbers.winningNumbers())
+                .drawDate(savedWinningNumbers.date())
                 .build();
     }
 
@@ -43,7 +41,7 @@ public class WinningNumbersGeneratorFacade {
                 .orElseThrow(() -> new WinningNumbersNotFoundException("Winning numbers not found"));
         return WinningNumbersDto.builder()
                 .winningNumbers(numbersByDate.winningNumbers())
-                .drawDate(numbersByDate.drawDate())
+                .drawDate(numbersByDate.date())
                 .build();
     }
 }
