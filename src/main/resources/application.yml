@@ -5,6 +5,7 @@ spring:
 
 lotto:
   number-generator:
+    lotteryRunOccurrence: "0 0 12 * * 6" # cron scheduled for each Saturday at noon (12:00)
     facade:
       count: 6
       lower-band: 1
