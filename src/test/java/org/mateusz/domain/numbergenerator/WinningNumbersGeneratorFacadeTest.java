@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
@@ -112,5 +113,35 @@ class WinningNumbersGeneratorFacadeTest {
         //when
         //then
         assertThrows(WinningNumbersNotFoundException.class, winningNumbersGeneratorFacade::generateWinningNumbers, "Winning numbers out of range!");
+    }
+
+    @Test
+    void should_return_winning_numbers_for_passed_date() {
+        // given
+        RandomNumberGenerable winningNumbersGenerator = new WinningNumbersGeneratorTestImpl(Set.of(1, 2, 3, 4, 5, 6));
+        WinningNumbersGeneratorFacade winningNumbersGeneratorFacade = new WinningNumbersGeneratorConfiguration().createForTest(
+                drawDateFacade,
+                winningNumbersGenerator,
+                winningNumbersTestRepository);
+        WinningNumbersDto generatedWinningNumbersDto = winningNumbersGeneratorFacade.generateWinningNumbers();
+        // when
+        WinningNumbersDto foundWinningNumbersDto = winningNumbersGeneratorFacade.retrieveWinningNumbersByDate(DUMMY_DRAW_DATE_DTO.time());
+        // then
+        assertEquals(foundWinningNumbersDto, generatedWinningNumbersDto);
+    }
+
+    @Test
+    void should_throw_exception_where_there_are_no_winning_numbers_for_passed_date() {
+        // given
+        LocalDateTime someDate = LocalDateTime.now()
+                .plusDays(5);
+        RandomNumberGenerable winningNumbersGenerator = new WinningNumbersGeneratorTestImpl(Set.of(1, 2, 3, 4, 5, 100));
+        WinningNumbersGeneratorFacade winningNumbersGeneratorFacade = new WinningNumbersGeneratorConfiguration().createForTest(
+                drawDateFacade,
+                winningNumbersGenerator,
+                winningNumbersTestRepository);
+        // when
+        // then
+        assertThrows(WinningNumbersNotFoundException.class, () -> winningNumbersGeneratorFacade.retrieveWinningNumbersByDate(someDate), "Winning numbers not found");
     }
 }
