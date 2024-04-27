@@ -11,7 +11,7 @@ class DrawDateGenerator {
         return DrawDate.builder()
                 .id(drawDateId)
                 .number(lastDrawDateNumber)
-                .time(expectedNextDrawDate)
+                .date(expectedNextDrawDate)
                 .build();
     }
 }

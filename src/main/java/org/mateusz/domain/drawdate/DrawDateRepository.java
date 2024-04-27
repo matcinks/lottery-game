@@ -1,14 +1,15 @@
 package org.mateusz.domain.drawdate;
 
-import java.math.BigInteger;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
+
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
-public interface DrawDateRepository {
+@Repository
+public interface DrawDateRepository extends MongoRepository<DrawDate, String> {
 
-    DrawDate save(DrawDate drawDate);
-    List<DrawDate> findAll();
-    Optional<DrawDate> findByDate(LocalDateTime time);
-    Optional<BigInteger> findLastNumber();
+    Optional<DrawDate> findByDate(LocalDateTime date);
+
+    Optional<DrawDate> findFirstByOrderByNumberDesc();
 }

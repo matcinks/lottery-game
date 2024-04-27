@@ -9,18 +9,18 @@ class DrawDateMapper {
     public static DrawDateDto mapFromDrawDate(DrawDate drawDate) {
         return DrawDateDto.builder()
                 .id(drawDate.id())
-                .time(drawDate.time())
+                .time(drawDate.date())
                 .build();
     }
 
     public static DrawDate mapFromDrawDateDto(DrawDateDto drawDatedto) {
         return DrawDate.builder()
                 .id(drawDatedto.id())
-                .time(drawDatedto.time())
+                .date(drawDatedto.time())
                 .build();
     }
 
     public static LocalDateTime timeFromDrawDateDto(DrawDateDto drawDateDto) {
-        return mapFromDrawDateDto(drawDateDto).time();
+        return mapFromDrawDateDto(drawDateDto).date();
     }
 }

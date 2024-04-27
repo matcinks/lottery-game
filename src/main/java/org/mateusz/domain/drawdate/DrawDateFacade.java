@@ -59,8 +59,8 @@ public class DrawDateFacade {
     }
 
     private BigInteger nextDrawDateNumber() {
-        return repository.findLastNumber()
-                .map(bigInteger -> bigInteger
-                        .add(BigInteger.ONE)).orElse(BigInteger.ONE);
+        return repository.findFirstByOrderByNumberDesc()
+                .map(drawDate -> drawDate.number().add(BigInteger.ONE))
+                .orElse(BigInteger.ONE);
     }
 }
