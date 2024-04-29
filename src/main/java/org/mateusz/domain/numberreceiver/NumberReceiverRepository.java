@@ -1,10 +1,12 @@
 package org.mateusz.domain.numberreceiver;
 
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface NumberReceiverRepository {
-    Ticket save(Ticket ticket);
-
-    List<Ticket> findAllTicketsByDrawDate(LocalDateTime date);
+@Repository
+public interface NumberReceiverRepository extends MongoRepository<Ticket, String> {
+    List<Ticket> findAllByDrawDate(LocalDateTime date);
 }

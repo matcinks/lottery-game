@@ -15,5 +15,4 @@ class NumberValidator {
                 .distinct()
                 .count() == MAX_NUMBERS_FROM_USER;
     }
-
 }
