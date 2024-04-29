@@ -8,5 +8,5 @@ import java.time.LocalDateTime;
 @Builder
 record DrawDate(String id,
                        BigInteger number,
-                       LocalDateTime time) {
+                       LocalDateTime date) {
 }

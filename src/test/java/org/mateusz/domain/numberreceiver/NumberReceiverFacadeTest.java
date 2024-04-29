@@ -35,7 +35,7 @@ class NumberReceiverFacadeTest {
     void should_return_success_when_user_gave_six_numbers_in_range() {
         // given
         Set<Integer> numbers = Set.of(1, 2, 3, 4, 5, 6);
-        NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().createForTest(drawDateFacade, numberReceiverTestRepository);
+        NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().numberReceiverFacade(drawDateFacade, numberReceiverTestRepository);
         // when
         NumberReceiverResponseDto actual = numberReceiverFacade.inputNumbers(numbers);
         // then
@@ -46,7 +46,7 @@ class NumberReceiverFacadeTest {
     void should_return_fail_when_user_gave_less_than_six_numbers() {
         //given
         Set<Integer> numbers = Set.of(1, 2, 3, 4, 5);
-        NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().createForTest(drawDateFacade, numberReceiverTestRepository);
+        NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().numberReceiverFacade(drawDateFacade, numberReceiverTestRepository);
         //when
         NumberReceiverResponseDto actual = numberReceiverFacade.inputNumbers(numbers);
         //then
@@ -57,7 +57,7 @@ class NumberReceiverFacadeTest {
     void should_return_fail_when_user_gave_more_than_six_numbers() {
         //given
         Set<Integer> numbers = Set.of(1, 2, 3, 4, 5, 6, 7);
-        NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().createForTest(drawDateFacade, numberReceiverTestRepository);
+        NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().numberReceiverFacade(drawDateFacade, numberReceiverTestRepository);
         //when
         NumberReceiverResponseDto actual = numberReceiverFacade.inputNumbers(numbers);
         //then
@@ -68,7 +68,7 @@ class NumberReceiverFacadeTest {
     void should_return_fail_when_user_gave_at_least_one_number_out_of_range_of_1_to_99() {
         //given
         Set<Integer> numbers = Set.of(0, 2, 3, 4, 5, 6);
-        NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().createForTest(drawDateFacade, numberReceiverTestRepository);
+        NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().numberReceiverFacade(drawDateFacade, numberReceiverTestRepository);
         //when
         NumberReceiverResponseDto actual = numberReceiverFacade.inputNumbers(numbers);
         //then
@@ -78,7 +78,7 @@ class NumberReceiverFacadeTest {
     @Test
     void should_return_save_to_database_when_user_gave_six_numbers() {
         // given
-        NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().createForTest(drawDateFacade, numberReceiverTestRepository);
+        NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().numberReceiverFacade(drawDateFacade, numberReceiverTestRepository);
         TicketDto actual = generateTicketDto(numberReceiverFacade, Set.of(1, 2, 3, 4, 5, 6));
         LocalDateTime drawDate = drawDateFacade.getNextDrawDate()
                 .time();
@@ -97,7 +97,7 @@ class NumberReceiverFacadeTest {
     @Test
     void should_return_empty_collection_if_there_are_no_tickets() {
         // given
-        NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().createForTest(drawDateFacade, numberReceiverTestRepository);
+        NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().numberReceiverFacade(drawDateFacade, numberReceiverTestRepository);
         LocalDateTime drawDate = DrawDateMapper.drawDateTimeFromDrawDateDto(drawDateFacade.getNextDrawDate());
         // when
         List<TicketDto> listOfTickets = numberReceiverFacade.retrieveAllTicketsForNextDrawDate(drawDate);
@@ -108,7 +108,7 @@ class NumberReceiverFacadeTest {
     @Test
     void should_return_empty_collection_when_provided_draw_date_is_one_week_after_current_draw_date() {
         // given
-        NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().createForTest(drawDateFacade, numberReceiverTestRepository);
+        NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().numberReceiverFacade(drawDateFacade, numberReceiverTestRepository);
 
         Set<Integer> ticketNumbers = Set.of(1, 2, 3, 4, 5, 6);
         numberReceiverFacade.inputNumbers(ticketNumbers);
@@ -132,7 +132,7 @@ class NumberReceiverFacadeTest {
         DrawDateDto drawDateDto = createDrawDateDto(clock, NEXT_DAY);
         DrawDateDto drawDateDtoForWeekLater = createDrawDateDto(clock, ONE_WEEK);
 
-        NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().createForTest(drawDateFacade, numberReceiverTestRepository);
+        NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration().numberReceiverFacade(drawDateFacade, numberReceiverTestRepository);
 
         given(drawDateFacade.getNextDrawDate()).willReturn(drawDateDto,
                 drawDateDto,
