@@ -27,6 +27,7 @@
         <testcontainers.version>1.19.3</testcontainers.version>
         <wiremock.version>3.0.1</wiremock.version>
         <awaitility.version>4.2.1</awaitility.version>
+        <springfox-boot-starter.version>3.0.0</springfox-boot-starter.version>
     </properties>
 
     <dependencies>
@@ -106,7 +107,12 @@
             <version>${awaitility.version}</version>
             <scope>test</scope>
         </dependency>
-
+        <!-- swagger -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-boot-starter</artifactId>
+            <version>${springfox-boot-starter.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
