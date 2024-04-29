@@ -3,7 +3,7 @@ spring:
     allow-bean-definition-overriding: true # property allowing overriding beans for clock overriding, one bean of clock for app, one for integration testing
   data:
     mongodb:
-      uri: mongodb://admin:admin@localhost:27017/lotto-web
+      uri: mongodb://admin:admin@localhost:27017/lotto-web?authSource=admin
 
 lotto:
   number-generator:
