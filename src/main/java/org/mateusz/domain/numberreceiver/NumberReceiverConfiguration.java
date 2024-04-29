@@ -10,6 +10,6 @@ public class NumberReceiverConfiguration {
     @Bean
     NumberReceiverFacade numberReceiverFacade(DrawDateFacade drawDateFacade, NumberReceiverRepository numberReceiverRepository) {
         NumberValidator numberValidator = new NumberValidator();
-        return new NumberReceiverFacade(numberValidator,numberReceiverRepository, drawDateFacade);
+        return new NumberReceiverFacade(numberValidator, numberReceiverRepository, drawDateFacade);
     }
 }
