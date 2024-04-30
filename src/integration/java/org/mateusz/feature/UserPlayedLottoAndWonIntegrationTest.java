@@ -19,6 +19,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class UserPlayedLottoAndWonIntegrationTest extends BaseIntegrationTest {
@@ -28,9 +30,7 @@ public class UserPlayedLottoAndWonIntegrationTest extends BaseIntegrationTest {
 
     @Test
     public void should_user_win_and_system_should_generate_winners() throws Exception {
-        // *****
         // 1. external service returns 6 random numbers
-        // *****
         // given
         wireMockServer.stubFor(WireMock.get("/api/v1.0/random?min=1&max=99&count=25")
                 .willReturn(WireMock.aResponse()
@@ -40,9 +40,9 @@ public class UserPlayedLottoAndWonIntegrationTest extends BaseIntegrationTest {
                                 [1, 2, 3, 4, 5, 6, 82, 82, 83, 83, 86, 57, 10, 81, 53, 93, 50, 54, 31, 88, 15, 43, 79, 32, 43]
                                 """.trim()
                         )));
-        // *****
+
+
         // 2. system fetched winning numbers for date: 19.11.2022
-        // *****
         // given
         LocalDateTime drawDate = LocalDateTime.of(2022, 11, 19, 12, 0, 0, 0);
         // when & then
@@ -59,9 +59,9 @@ public class UserPlayedLottoAndWonIntegrationTest extends BaseIntegrationTest {
                             }
                         }
                 );
-        // *****
+
+
         // 3. user makes POST request to /winningNumbers endpoint with numbers: 1, 2, 3, 4, 5, 6 at 16.11.2022 10:00
-        // *****
         // given
         // when
         ResultActions perform = mockMvc.perform(post("/inputNumbers")
@@ -74,8 +74,8 @@ public class UserPlayedLottoAndWonIntegrationTest extends BaseIntegrationTest {
                 ).contentType(MediaType.APPLICATION_JSON)
         );
         // then
-        MvcResult result = perform.andExpect(status().isOk()).andReturn();
-        String json = result.getResponse().getContentAsString();
+        MvcResult performPostInputNumbers = perform.andExpect(status().isOk()).andReturn();
+        String json = performPostInputNumbers.getResponse().getContentAsString();
         NumberReceiverResponseDto numberReceiverResponseDto = objectMapper.readValue(json, NumberReceiverResponseDto.class);
 
         assertAll(
@@ -83,6 +83,24 @@ public class UserPlayedLottoAndWonIntegrationTest extends BaseIntegrationTest {
                 () -> assertThat(numberReceiverResponseDto.ticketDto().ticketId()).isNotNull(),
                 () -> assertThat(numberReceiverResponseDto.message()).isEqualTo("success")
         );
+
+
+        // 4. user made GET /results/notExistingId and system returned 404 NOT FOUND
+        // given
+        ResultActions performGetResultsWithNotExistingId = mockMvc.perform(get("/results/" + "notExistingId"));
+        // when
+        performGetResultsWithNotExistingId.andExpect(status().isNotFound())
+                .andExpect(content().json(
+                        """
+                                                    {
+                                                    "message": "Not found for id",
+                                                    "status": "NOT_FOUND"
+                                                    }
+                                """.trim()
+                ));
+
+        // then
+
 
     }
 }

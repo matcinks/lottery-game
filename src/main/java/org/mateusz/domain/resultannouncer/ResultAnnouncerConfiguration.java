@@ -1,10 +1,14 @@
 package org.mateusz.domain.resultannouncer;
 
 import org.mateusz.domain.resultchecker.ResultCheckerFacade;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
+@Configuration
 public class ResultAnnouncerConfiguration {
 
-    public ResultAnnouncerFacade createForTest(ResultAnnouncerRepository repository, ResultCheckerFacade resultCheckerFacade) {
+    @Bean
+    public ResultAnnouncerFacade resultAnnouncerFacade(ResultAnnouncerRepository repository, ResultCheckerFacade resultCheckerFacade) {
         ResultProcessor resultProcessor = new ResultProcessor();
         return new ResultAnnouncerFacade(repository, resultCheckerFacade, resultProcessor);
     }

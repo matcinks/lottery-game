@@ -1,11 +1,7 @@
 package org.mateusz.domain.resultchecker;
 
-import java.util.List;
-import java.util.Optional;
-
-public interface PlayerRepository {
-
-    List<Player> saveAll(List<Player> players);
-
-    Optional<Player> findById(String id);
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
+@Repository
+public interface PlayerRepository extends MongoRepository<Player, String> {
 }

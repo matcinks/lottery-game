@@ -29,7 +29,7 @@ class ResultAnnouncerFacadeTest {
                 .id(resultId)
                 .build();
         repository.save(cachedResult);
-        ResultAnnouncerFacade resultAnnouncerFacade = new ResultAnnouncerConfiguration().createForTest(repository, resultCheckerFacade);
+        ResultAnnouncerFacade resultAnnouncerFacade = new ResultAnnouncerConfiguration().resultAnnouncerFacade(repository, resultCheckerFacade);
         // when
         ResultAnnouncerResponseDto resultAnnouncerResponseDto = resultAnnouncerFacade.checkResult(resultId);
         // then
@@ -41,7 +41,7 @@ class ResultAnnouncerFacadeTest {
     void should_return_null_result_and_not_found_message_if_there_is_no_ticked() {
         // given
         String id = "001";
-        ResultAnnouncerFacade resultAnnouncerFacade = new ResultAnnouncerConfiguration().createForTest(repository, resultCheckerFacade);
+        ResultAnnouncerFacade resultAnnouncerFacade = new ResultAnnouncerConfiguration().resultAnnouncerFacade(repository, resultCheckerFacade);
         given(resultCheckerFacade.findById(id)).willThrow(new PlayerResultNotFoundException(ResultMessages.NO_PLAYER_FOR_ID));
         // when
         ResultAnnouncerResponseDto resultAnnouncerResponseDto = resultAnnouncerFacade.checkResult(id);
@@ -63,7 +63,7 @@ class ResultAnnouncerFacadeTest {
                 .drawDate(drawDate)
                 .isWinner(true)
                 .build();
-        ResultAnnouncerFacade resultAnnouncerFacade = new ResultAnnouncerConfiguration().createForTest(repository, resultCheckerFacade);
+        ResultAnnouncerFacade resultAnnouncerFacade = new ResultAnnouncerConfiguration().resultAnnouncerFacade(repository, resultCheckerFacade);
         given(resultCheckerFacade.findById(id)).willReturn(playerResultDto);
         // when
         ResultAnnouncerResponseDto resultAnnouncerResponseDto = resultAnnouncerFacade.checkResult(id);
@@ -90,7 +90,7 @@ class ResultAnnouncerFacadeTest {
                 .drawDate(drawDate)
                 .isWinner(false)
                 .build();
-        ResultAnnouncerFacade resultAnnouncerFacade = new ResultAnnouncerConfiguration().createForTest(repository, resultCheckerFacade);
+        ResultAnnouncerFacade resultAnnouncerFacade = new ResultAnnouncerConfiguration().resultAnnouncerFacade(repository, resultCheckerFacade);
         given(resultCheckerFacade.findById(id)).willReturn(playerResultDto);
         // when
         ResultAnnouncerResponseDto resultAnnouncerResponseDto = resultAnnouncerFacade.checkResult(id);
@@ -115,7 +115,7 @@ class ResultAnnouncerFacadeTest {
                 .id(id)
                 .drawDate(drawDate)
                 .build();
-        ResultAnnouncerFacade resultAnnouncerFacade = new ResultAnnouncerConfiguration().createForTest(repository, resultCheckerFacade);
+        ResultAnnouncerFacade resultAnnouncerFacade = new ResultAnnouncerConfiguration().resultAnnouncerFacade(repository, resultCheckerFacade);
         given(resultCheckerFacade.findById(id)).willReturn(playerResultDto);
         // when
         ResultAnnouncerResponseDto resultAnnouncerResponseDto = resultAnnouncerFacade.checkResult(id);

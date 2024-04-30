@@ -1,10 +1,8 @@
 package org.mateusz.domain.resultannouncer;
 
-import java.util.Optional;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ResultAnnouncerRepository {
-
-    Result save(Result result);
-
-    Optional<Result> findById(String id);
+@Repository
+public interface ResultAnnouncerRepository extends MongoRepository<Result, String> {
 }

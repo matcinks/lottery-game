@@ -44,11 +44,13 @@ public class ResultCheckerFacade {
     }
 
     public PlayerResultDto findById(String id) {
-        Optional<Player> player = repository.findById(id);
-        if (player.isPresent()) {
-            return ResultCheckerMapper.mapFromPlayer(player.get());
-        } else {
-            throw new PlayerResultNotFoundException(String.format(ResultMessages.NO_PLAYER_FOR_ID, id));
-        }
+        Player player = repository.findById(id).orElseThrow(() -> new RuntimeException(String.format(ResultMessages.NO_PLAYER_FOR_ID, id)));
+        return PlayerResultDto.builder()
+                .id(player.id())
+                .numbers(player.numbers())
+                .hitNumbers(player.hitNumbers())
+                .drawDate(player.drawDate())
+                .isWinner(player.isWinner())
+                .build();
     }
 }
