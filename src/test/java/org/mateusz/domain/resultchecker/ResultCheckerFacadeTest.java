@@ -37,7 +37,7 @@ class ResultCheckerFacadeTest {
                 .winningNumbers(Set.of(1, 2, 3, 4, 5, 6))
                 .build();
 
-        ResultCheckerFacade resultCheckerFacade = new ResultCheckerConfiguration().createForTest(numberReceiverFacade, winningNumbersGeneratorFacade, repository);
+        ResultCheckerFacade resultCheckerFacade = new ResultCheckerConfiguration().resultCheckerFacade(numberReceiverFacade, winningNumbersGeneratorFacade, repository);
 
         given(numberReceiverFacade.retrieveAllTicketsForNextDrawDate()).willReturn(List.of(ticketDto1, ticketDto2, ticketDto3));
         given(winningNumbersGeneratorFacade.generateWinningNumbers()).willReturn(winningNumbersDto);
@@ -78,7 +78,7 @@ class ResultCheckerFacadeTest {
     void should_return_failed_message_when_there_are_no_tickets() {
         // given
         given(numberReceiverFacade.retrieveAllTicketsForNextDrawDate()).willReturn(List.of());
-        ResultCheckerFacade resultCheckerFacade = new ResultCheckerConfiguration().createForTest(numberReceiverFacade, winningNumbersGeneratorFacade, repository);
+        ResultCheckerFacade resultCheckerFacade = new ResultCheckerConfiguration().resultCheckerFacade(numberReceiverFacade, winningNumbersGeneratorFacade, repository);
         // when
         PlayersResultsDto playersResultsDto = resultCheckerFacade.generateWinners();
         // then
@@ -92,7 +92,7 @@ class ResultCheckerFacadeTest {
         TicketDto ticketDto = createTicket("001", Set.of(1, 2, 3, 7, 8, 9), LocalDateTime.now());
         given(numberReceiverFacade.retrieveAllTicketsForNextDrawDate()).willReturn(List.of(ticketDto));
         given(winningNumbersGeneratorFacade.generateWinningNumbers()).willReturn(WinningNumbersDto.builder().build());
-        ResultCheckerFacade resultCheckerFacade = new ResultCheckerConfiguration().createForTest(numberReceiverFacade, winningNumbersGeneratorFacade, repository);
+        ResultCheckerFacade resultCheckerFacade = new ResultCheckerConfiguration().resultCheckerFacade(numberReceiverFacade, winningNumbersGeneratorFacade, repository);
         // when
         PlayersResultsDto playersResultsDto = resultCheckerFacade.generateWinners();
         // then
@@ -111,7 +111,7 @@ class ResultCheckerFacadeTest {
         Player player = new Player(expectedId, numbers, hitNumbers, drawDate, isWinner);
         repository.saveAll(List.of(player));
 
-        ResultCheckerFacade resultCheckerFacade = new ResultCheckerConfiguration().createForTest(numberReceiverFacade, winningNumbersGeneratorFacade, repository);
+        ResultCheckerFacade resultCheckerFacade = new ResultCheckerConfiguration().resultCheckerFacade(numberReceiverFacade, winningNumbersGeneratorFacade, repository);
 
         // when
         PlayerResultDto playerResultDto = resultCheckerFacade.findById(expectedId);
@@ -128,7 +128,7 @@ class ResultCheckerFacadeTest {
     void should_throw_exception_when_player_does_not_exist() {
         // given
         String nonExistentId = "nonExistentId";
-        ResultCheckerFacade resultCheckerFacade = new ResultCheckerConfiguration().createForTest(numberReceiverFacade, winningNumbersGeneratorFacade, repository);
+        ResultCheckerFacade resultCheckerFacade = new ResultCheckerConfiguration().resultCheckerFacade(numberReceiverFacade, winningNumbersGeneratorFacade, repository);
         // when & then
         assertThrows(PlayerResultNotFoundException.class, () -> resultCheckerFacade.findById(nonExistentId));
     }
