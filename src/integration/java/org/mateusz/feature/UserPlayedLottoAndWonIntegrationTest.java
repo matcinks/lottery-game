@@ -93,7 +93,7 @@ public class UserPlayedLottoAndWonIntegrationTest extends BaseIntegrationTest {
                 .andExpect(content().json(
                         """
                                                     {
-                                                    "message": "Not found for id",
+                                                    "message": "Result not found for player with id: notExistingId",
                                                     "status": "NOT_FOUND"
                                                     }
                                 """.trim()

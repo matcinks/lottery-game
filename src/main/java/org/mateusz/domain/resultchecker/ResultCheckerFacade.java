@@ -44,7 +44,8 @@ public class ResultCheckerFacade {
     }
 
     public PlayerResultDto findById(String id) {
-        Player player = repository.findById(id).orElseThrow(() -> new RuntimeException(String.format(ResultMessages.NO_PLAYER_FOR_ID, id)));
+        Player player = repository.findById(id)
+                .orElseThrow(() -> new PlayerResultNotFoundException(String.format(ResultMessages.NO_PLAYER_FOR_ID, id)));
         return PlayerResultDto.builder()
                 .id(player.id())
                 .numbers(player.numbers())
