@@ -9,7 +9,6 @@ import org.mateusz.domain.numbergenerator.dto.WinningNumbersDto;
 import org.mateusz.domain.numberreceiver.dto.TicketDto;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @AllArgsConstructor
