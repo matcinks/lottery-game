@@ -43,7 +43,7 @@ class ResultCheckerFacadeTest {
         given(winningNumbersGeneratorFacade.generateWinningNumbers()).willReturn(winningNumbersDto);
 
         //when
-        PlayersResultsDto playersResultsDto = resultCheckerFacade.generateWinners();
+        PlayersResultsDto playersResultsDto = resultCheckerFacade.generateResults();
 
         //then
         List<PlayerResultDto> listOfPlayersResultsDto = playersResultsDto.playersResults();
@@ -80,7 +80,7 @@ class ResultCheckerFacadeTest {
         given(numberReceiverFacade.retrieveAllTicketsForNextDrawDate()).willReturn(List.of());
         ResultCheckerFacade resultCheckerFacade = new ResultCheckerConfiguration().resultCheckerFacade(numberReceiverFacade, winningNumbersGeneratorFacade, repository);
         // when
-        PlayersResultsDto playersResultsDto = resultCheckerFacade.generateWinners();
+        PlayersResultsDto playersResultsDto = resultCheckerFacade.generateResults();
         // then
         assertThat(playersResultsDto.message()).isEqualTo(ResultMessages.TICKETS_NOT_FOUND);
         assertThat(playersResultsDto.playersResults()).isNull();
@@ -94,7 +94,7 @@ class ResultCheckerFacadeTest {
         given(winningNumbersGeneratorFacade.generateWinningNumbers()).willReturn(WinningNumbersDto.builder().build());
         ResultCheckerFacade resultCheckerFacade = new ResultCheckerConfiguration().resultCheckerFacade(numberReceiverFacade, winningNumbersGeneratorFacade, repository);
         // when
-        PlayersResultsDto playersResultsDto = resultCheckerFacade.generateWinners();
+        PlayersResultsDto playersResultsDto = resultCheckerFacade.generateResults();
         // then
         assertThat(playersResultsDto.message()).isEqualTo(ResultMessages.WINNERS_NOT_FOUND);
         assertThat(playersResultsDto.playersResults()).isNull();

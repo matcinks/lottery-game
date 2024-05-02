@@ -1,6 +1,5 @@
 package org.mateusz.apivalidationerror;
 
-import jakarta.validation.constraints.NotEmpty;
 import org.junit.jupiter.api.Test;
 import org.mateusz.BaseIntegrationTest;
 import org.mateusz.infrastructure.apivalidation.ApiValidationErrorDto;
@@ -42,8 +41,7 @@ public class ApiValidationFailedIntegrationTest extends BaseIntegrationTest {
         // when
         ResultActions perform = mockMvc.perform(post("/inputNumbers")
                 .content("""
-                        {
-                        }
+                        {}
                         """.trim()
                 ).contentType(MediaType.APPLICATION_JSON)
         );

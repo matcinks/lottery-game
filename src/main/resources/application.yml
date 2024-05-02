@@ -7,7 +7,8 @@ spring:
 
 lotto:
   number-generator:
-    lotteryRunOccurrence: "0 0 12 * * 6" # cron scheduled for each Saturday at noon (12:00)
+    lotteryRunOccurrence: "5 * * * * *" # cron scheduled for each Saturday at noon (12:00)
+#    lotteryRunOccurrence: "0 0 12 * * 6" # cron scheduled for each Saturday at noon (12:00)
     facade:
       count: 25
       lower-band: 1
@@ -19,3 +20,6 @@ lotto:
           port: 9090
           connection-timeout: 5000
           read-timeout: 5000
+  result-checker:
+    lotteryRunOccurrence: "10 * * * * *" # cron scheduled for each Saturday, 5 minutes before noon (11:55)
+#    lotteryRunOccurrence: "0 55 11 * * 6" # cron scheduled for each Saturday, 5 minutes before noon (11:55)

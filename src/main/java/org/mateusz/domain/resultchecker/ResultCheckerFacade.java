@@ -19,7 +19,7 @@ public class ResultCheckerFacade {
     private final WinnersRetriever winnersRetriever;
     private final PlayerRepository repository;
 
-    public PlayersResultsDto generateWinners() {
+    public PlayersResultsDto generateResults() {
         List<TicketDto> allTicketsDtosByNextDrawDate = numberReceiverFacade.retrieveAllTicketsForNextDrawDate();
         List<Ticket> allTicketsByNextDrawDate = ResultCheckerMapper.mapFromTicketDto(allTicketsDtosByNextDrawDate);
         if (allTicketsByNextDrawDate == null || allTicketsByNextDrawDate.isEmpty()) {
