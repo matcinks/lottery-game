@@ -30,6 +30,7 @@ public class WinningNumbersGeneratorFacade {
                 .date(nextDrawDate)
                 .build();
         WinningNumbers savedWinningNumbers = winningNumbersRepository.save(winningNumbersDocument);
+        System.out.println("WINNING NUMBERS: " + savedWinningNumbers);
         return WinningNumbersDto.builder()
                 .winningNumbers(savedWinningNumbers.winningNumbers())
                 .drawDate(savedWinningNumbers.date())
@@ -43,5 +44,10 @@ public class WinningNumbersGeneratorFacade {
                 .winningNumbers(numbersByDate.winningNumbers())
                 .drawDate(numbersByDate.date())
                 .build();
+    }
+
+    public boolean areWinningNumbersGeneratedByNextDrawDate() {
+        LocalDateTime nextDrawDate = drawDateFacade.getNextDrawDate().time();
+        return winningNumbersRepository.existsByDate(nextDrawDate);
     }
 }

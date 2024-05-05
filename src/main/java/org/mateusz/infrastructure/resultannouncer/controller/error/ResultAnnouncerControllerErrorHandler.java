@@ -5,7 +5,7 @@ import org.mateusz.domain.resultchecker.PlayerResultNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-//@ControllerAdvice
+@ControllerAdvice
 @RestControllerAdvice
 @Log4j2
 public class ResultAnnouncerControllerErrorHandler {

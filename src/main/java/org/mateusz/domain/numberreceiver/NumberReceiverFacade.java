@@ -28,7 +28,7 @@ public class NumberReceiverFacade {
             Ticket savedTicket = Ticket.builder()
                     .ticketId(ticketId)
                     .numbersFromUser(generatedTicket.numbers())
-                    .drawDate(generatedTicket.drawDate())
+                    .date(generatedTicket.drawDate())
                     .build();
             repository.save(savedTicket);
             return NumberReceiverResponseDto.builder()
@@ -44,10 +44,12 @@ public class NumberReceiverFacade {
         if (date.isAfter(nextDrawDate)) {
             return Collections.emptyList();
         }
-        return repository.findAllByDrawDate(nextDrawDate)
+        List<TicketDto> testList = repository.findAllByDate(nextDrawDate)
                 .stream()
                 .map(TicketMapper::mapFromTicket)
                 .toList();
+        System.out.println(testList);
+        return testList;
     }
 
     public List<TicketDto> retrieveAllTicketsForNextDrawDate() {

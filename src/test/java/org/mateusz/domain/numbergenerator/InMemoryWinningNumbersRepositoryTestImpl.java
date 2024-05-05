@@ -33,6 +33,14 @@ class InMemoryWinningNumbersRepositoryTestImpl implements WinningNumbersReposito
     }
 
     @Override
+    public boolean existsByDate(LocalDateTime date) {
+        return inMemoryDatabase.values()
+                .stream()
+                .anyMatch(numbers -> numbers.date()
+                        .isEqual(date));
+    }
+
+    @Override
     public <S extends WinningNumbers> S insert(S entity) {
         return null;
     }

@@ -1,5 +1,6 @@
 package org.mateusz.infrastructure.numberreceiver.controller;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.mateusz.domain.numberreceiver.NumberReceiverFacade;
@@ -20,7 +21,7 @@ public class InputNumbersRestController {
     private final NumberReceiverFacade numberReceiverFacade;
 
     @PostMapping("/inputNumbers")
-    public ResponseEntity<NumberReceiverResponseDto> inputNumbers(@RequestBody InputNumbersRequestDto requestDto) {
+    public ResponseEntity<NumberReceiverResponseDto> inputNumbers(@RequestBody @Valid InputNumbersRequestDto requestDto) {
         log.info(requestDto.inputNumbers());
         Set<Integer> integers = new HashSet<>(requestDto.inputNumbers());
         NumberReceiverResponseDto numberReceiverResponseDto = numberReceiverFacade.inputNumbers(integers);

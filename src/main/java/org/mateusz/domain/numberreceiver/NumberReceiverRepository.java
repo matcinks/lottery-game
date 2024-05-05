@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface NumberReceiverRepository extends MongoRepository<Ticket, String> {
-    List<Ticket> findAllByDrawDate(LocalDateTime date);
+    List<Ticket> findAllByDate(LocalDateTime date);
 }

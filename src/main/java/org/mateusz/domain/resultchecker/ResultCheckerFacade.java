@@ -9,7 +9,6 @@ import org.mateusz.domain.numbergenerator.dto.WinningNumbersDto;
 import org.mateusz.domain.numberreceiver.dto.TicketDto;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -20,7 +19,7 @@ public class ResultCheckerFacade {
     private final WinnersRetriever winnersRetriever;
     private final PlayerRepository repository;
 
-    public PlayersResultsDto generateWinners() {
+    public PlayersResultsDto generateResults() {
         List<TicketDto> allTicketsDtosByNextDrawDate = numberReceiverFacade.retrieveAllTicketsForNextDrawDate();
         List<Ticket> allTicketsByNextDrawDate = ResultCheckerMapper.mapFromTicketDto(allTicketsDtosByNextDrawDate);
         if (allTicketsByNextDrawDate == null || allTicketsByNextDrawDate.isEmpty()) {

@@ -28,10 +28,10 @@ public class InMemoryNumberReceiverRepositoryTestImpl implements NumberReceiverR
     }
 
     @Override
-    public List<Ticket> findAllByDrawDate(LocalDateTime date) {
+    public List<Ticket> findAllByDate(LocalDateTime date) {
         return inMemoryDatabase.values()
                 .stream()
-                .filter(ticket -> ticket.drawDate().equals(date))
+                .filter(ticket -> ticket.date().equals(date))
                 .toList();
     }
 
