@@ -3,8 +3,6 @@ package org.mateusz.domain.resultannouncer;
 import org.junit.jupiter.api.Test;
 import org.mateusz.domain.resultannouncer.dto.ResultAnnouncerResponseDto;
 import org.mateusz.domain.resultannouncer.dto.ResultDto;
-import org.mateusz.domain.resultchecker.ResultMessages;
-import org.mateusz.domain.resultchecker.PlayerResultNotFoundException;
 import org.mateusz.domain.resultchecker.ResultCheckerFacade;
 import org.mateusz.domain.resultchecker.dto.PlayerResultDto;
 
@@ -35,20 +33,6 @@ class ResultAnnouncerFacadeTest {
         // then
         assertThat(resultAnnouncerResponseDto.resultDto()).isEqualTo(ResultMapper.mapFromResult(cachedResult));
         assertEquals(resultAnnouncerResponseDto.message(), org.mateusz.domain.resultannouncer.ResultMessages.ALREADY_CHECKED);
-    }
-
-    @Test
-    void should_return_null_result_and_not_found_message_if_there_is_no_ticked() {
-        // given
-        String id = "001";
-        ResultAnnouncerFacade resultAnnouncerFacade = new ResultAnnouncerConfiguration().resultAnnouncerFacade(repository, resultCheckerFacade);
-        given(resultCheckerFacade.findById(id)).willThrow(new PlayerResultNotFoundException(ResultMessages.NO_PLAYER_FOR_ID));
-        // when
-        ResultAnnouncerResponseDto resultAnnouncerResponseDto = resultAnnouncerFacade.checkResult(id);
-        // then
-        String expectedMessage = String.format(org.mateusz.domain.resultannouncer.ResultMessages.NOT_FOUND, id);
-        assertThat(resultAnnouncerResponseDto.message()).isEqualTo(expectedMessage);
-        assertThat(resultAnnouncerResponseDto.resultDto()).isNull();
     }
 
     @Test

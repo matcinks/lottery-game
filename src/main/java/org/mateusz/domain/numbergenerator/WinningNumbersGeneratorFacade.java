@@ -30,6 +30,7 @@ public class WinningNumbersGeneratorFacade {
                 .date(nextDrawDate)
                 .build();
         WinningNumbers savedWinningNumbers = winningNumbersRepository.save(winningNumbersDocument);
+        System.out.println("WINNING NUMBERS: " + savedWinningNumbers);
         return WinningNumbersDto.builder()
                 .winningNumbers(savedWinningNumbers.winningNumbers())
                 .drawDate(savedWinningNumbers.date())

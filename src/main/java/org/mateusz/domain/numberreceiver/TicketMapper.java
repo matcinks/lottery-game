@@ -8,7 +8,7 @@ class TicketMapper {
         return TicketDto.builder()
                 .ticketId(ticket.ticketId())
                 .numbers(ticket.numbersFromUser())
-                .drawDate(ticket.drawDate())
+                .drawDate(ticket.date())
                 .build();
     }
 }

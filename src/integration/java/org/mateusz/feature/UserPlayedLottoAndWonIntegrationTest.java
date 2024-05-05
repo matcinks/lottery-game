@@ -6,6 +6,7 @@ import org.mateusz.BaseIntegrationTest;
 import org.mateusz.domain.numbergenerator.WinningNumbersGeneratorFacade;
 import org.mateusz.domain.numbergenerator.WinningNumbersNotFoundException;
 import org.mateusz.domain.numberreceiver.dto.NumberReceiverResponseDto;
+import org.mateusz.domain.resultannouncer.dto.ResultAnnouncerResponseDto;
 import org.mateusz.domain.resultchecker.ResultCheckerFacade;
 import org.mateusz.domain.resultchecker.dto.PlayerResultDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -138,6 +139,12 @@ public class UserPlayedLottoAndWonIntegrationTest extends BaseIntegrationTest {
         // when
         ResultActions performGet = mockMvc.perform(get("/results/" + ticketId));
         // then
-        performGet.andExpect(status().isOk());
+        MvcResult mvcResultGetMethod = performGet.andExpect(status().isOk()).andReturn();
+        String jsonGetMethod = mvcResultGetMethod.getResponse().getContentAsString();
+        ResultAnnouncerResponseDto finalResult = objectMapper.readValue(jsonGetMethod, ResultAnnouncerResponseDto.class);
+        assertAll(
+                () -> assertThat(finalResult.message()).isEqualTo("Congratulations, you won!"),
+                () -> assertThat(finalResult.resultDto().id()).isEqualTo(ticketId),
+                () -> assertThat(finalResult.resultDto().hitNumbers()).hasSize(6));
     }
 }

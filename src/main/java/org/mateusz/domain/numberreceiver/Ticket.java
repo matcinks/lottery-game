@@ -13,5 +13,5 @@ record Ticket(
         @Id
         String ticketId,
         Set<Integer> numbersFromUser,
-        LocalDateTime drawDate) {
+        LocalDateTime date) {
 }
